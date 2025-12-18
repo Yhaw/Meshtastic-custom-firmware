@@ -179,6 +179,8 @@ StoreForwardPlusPlusModule::StoreForwardPlusPlusModule()
 
     sqlite3_prepare_v2(ppDb, "select root_hash from mappings where identifier=?;", -1, &getRootFromChannelHashStmt, NULL);
 
+    sqlite3_prepare_v2(ppDb, "select root_hash from mappings where substr(root_hash,1,?)=?;", -1, &getFullRootHashStmt, NULL);
+
     encryptedOk = true;
 
     // wait about 15 seconds after boot for the first runOnce()
@@ -304,16 +306,20 @@ bool StoreForwardPlusPlusModule::handleReceivedProtobuf(const meshtastic_MeshPac
         // TODO: Check for root hash in mappings
 
         link_object incoming_link = ingestLinkMessage(t);
+        if (incoming_link.root_hash_len == 0) {
+            LOG_WARN("Hash bytes not found for incoming link");
+            return true;
+        }
+
+        if (incoming_link.commit_hash_len == 0) {
+            LOG_WARN("commit byte mismatch");
+            return true;
+        }
 
         if (portduino_config.sfpp_stratum0) {
             if (isInDB(incoming_link.message_hash, incoming_link.message_hash_len)) {
                 LOG_WARN("Received link already in chain");
-                // TODO: respond with last link?
-            }
-
-            if (!getRootFromChannelHash(router->p_encrypted->channel, incoming_link.root_hash)) {
-                LOG_WARN("Hash bytes not found for incoming link");
-                return true;
+                // TODO: respond with next link?
             }
 
             // calculate the commit_hash
@@ -542,6 +548,11 @@ bool StoreForwardPlusPlusModule::getNextHash(uint8_t *_root_hash, size_t _root_h
             LOG_WARN("here2 %u, %s", rc, sqlite3_errmsg(ppDb));
         }
         uint8_t *tmp_commit_hash = (uint8_t *)sqlite3_column_blob(getNextHashStmt, 0);
+        if (tmp_commit_hash == nullptr) {
+            LOG_WARN("No next hash found");
+            sqlite3_reset(getNextHashStmt);
+            return false;
+        }
         printBytes("commit_hash", tmp_commit_hash, 32);
         memcpy(next_commit_hash, tmp_commit_hash, 32);
         next_hash = true;
@@ -879,18 +890,40 @@ StoreForwardPlusPlusModule::link_object StoreForwardPlusPlusModule::ingestLinkMe
 
     // What if we don't have this root hash? Should drop this packet before this point.
     lo.channel_hash = getChannelHashFromRoot(t->root_hash.bytes, t->root_hash.size);
-
+    printBytes("Incoming message hash: 0x", t->message_hash.bytes, t->message_hash.size);
     SHA256 message_hash;
 
     memcpy(lo.encrypted_bytes, t->message.bytes, t->message.size);
     lo.encrypted_len = t->message.size;
 
-    memcpy(lo.message_hash, t->message_hash.bytes, t->message_hash.size);
-    lo.message_hash_len = t->message_hash.size;
-    memcpy(lo.root_hash, t->root_hash.bytes, t->root_hash.size);
-    lo.root_hash_len = t->root_hash.size;
-    memcpy(lo.commit_hash, t->commit_hash.bytes, t->commit_hash.size);
-    lo.commit_hash_len = t->commit_hash.size;
+    message_hash.reset();
+    message_hash.update(lo.encrypted_bytes, lo.encrypted_len);
+    message_hash.update(&lo.to, sizeof(lo.to));
+    message_hash.update(&lo.from, sizeof(lo.from));
+    message_hash.update(&lo.id, sizeof(lo.id));
+    message_hash.finalize(lo.message_hash, 32);
+    lo.message_hash_len = 32;
+    printBytes("after message hash: 0x", lo.message_hash, lo.message_hash_len);
+
+    // TODO: recalculate these
+
+    // look up full root hash and copy over the partial if it matches
+    if (lookUpFullRootHash(t->root_hash.bytes, t->root_hash.size, lo.root_hash)) {
+        printBytes("Found full root hash: 0x", lo.root_hash, 32);
+        lo.root_hash_len = 32;
+    } else {
+        printBytes("Using partial root hash: 0x", t->root_hash.bytes, t->root_hash.size);
+        lo.root_hash_len = 0;
+    }
+
+    // calculate the full commit hash and replace the partial if it matches
+    if (checkCommitHash(lo, t->commit_hash.bytes, t->commit_hash.size)) {
+        printBytes("commit hash matches: 0x", t->commit_hash.bytes, t->commit_hash.size);
+    } else {
+        LOG_WARN("commit hash does not match");
+        lo.commit_hash_len = 0;
+    }
+
     // we don't ever get the payload here, so it's always an empty string
     lo.payload = "";
 
@@ -937,9 +970,27 @@ bool StoreForwardPlusPlusModule::checkCommitHash(StoreForwardPlusPlusModule::lin
     commit_hash.finalize(lo.commit_hash, 32);
     lo.commit_hash_len = 32;
 
-    if (memcmp(commit_hash_bytes, lo.commit_hash, hash_len) == 0) {
+    if (hash_len == 0 || memcmp(commit_hash_bytes, lo.commit_hash, hash_len) == 0) {
         return true;
     }
+    return false;
+}
+
+bool StoreForwardPlusPlusModule::lookUpFullRootHash(uint8_t *partial_root_hash, size_t partial_root_hash_len,
+                                                    uint8_t *full_root_hash)
+{
+    LOG_WARN("lookUpFullRootHash");
+    sqlite3_bind_int(getFullRootHashStmt, 1, partial_root_hash_len);
+    sqlite3_bind_blob(getFullRootHashStmt, 2, partial_root_hash, partial_root_hash_len, NULL);
+    sqlite3_step(getFullRootHashStmt);
+    uint8_t *tmp_root_hash = (uint8_t *)sqlite3_column_blob(getFullRootHashStmt, 0);
+    if (tmp_root_hash) {
+        LOG_WARN("Found full root hash!");
+        memcpy(full_root_hash, tmp_root_hash, 32);
+        sqlite3_reset(getFullRootHashStmt);
+        return true;
+    }
+    sqlite3_reset(getFullRootHashStmt);
     return false;
 }
 

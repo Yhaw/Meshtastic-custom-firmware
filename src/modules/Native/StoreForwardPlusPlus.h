@@ -76,6 +76,7 @@ class StoreForwardPlusPlusModule : public ProtobufModule<meshtastic_StoreForward
     sqlite3_stmt *getHashFromRootStmt;
     sqlite3_stmt *addRootToMappingsStmt;
     sqlite3_stmt *getRootFromChannelHashStmt;
+    sqlite3_stmt *getFullRootHashStmt;
 
     // returns wasfound
     bool getRootFromChannelHash(ChannelHash, uint8_t *);
@@ -122,6 +123,8 @@ class StoreForwardPlusPlusModule : public ProtobufModule<meshtastic_StoreForward
     void rebroadcastLinkObject(link_object &);
 
     bool checkCommitHash(link_object &lo, uint8_t *commit_hash_bytes, size_t hash_len);
+
+    bool lookUpFullRootHash(uint8_t *partial_root_hash, size_t partial_root_hash_len, uint8_t *full_root_hash);
 
     enum chain_types {
         channel_chain = 0,
