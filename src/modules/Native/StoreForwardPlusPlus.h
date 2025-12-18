@@ -19,10 +19,11 @@ class StoreForwardPlusPlusModule : public ProtobufModule<meshtastic_StoreForward
         uint8_t encrypted_bytes[256] = {0};
         size_t encrypted_len;
         uint8_t message_hash[32] = {0};
+        size_t message_hash_len = 0;
         uint8_t root_hash[32] = {0};
+        size_t root_hash_len = 0;
         uint8_t commit_hash[32] = {0};
-        // TODO: Make these sizes instead?
-        bool has_commit_hash = false;
+        size_t commit_hash_len = 0;
         std::string payload;
     };
 
@@ -72,13 +73,16 @@ class StoreForwardPlusPlusModule : public ProtobufModule<meshtastic_StoreForward
     sqlite3_stmt *getNextHashStmt;
     sqlite3_stmt *getChainEndStmt;
     sqlite3_stmt *getLinkStmt;
+    sqlite3_stmt *getHashFromRootStmt;
+    sqlite3_stmt *addRootToMappingsStmt;
+    sqlite3_stmt *getRootFromChannelHashStmt;
 
     // returns wasfound
     bool getRootFromChannelHash(ChannelHash, uint8_t *);
 
-    ChannelHash getChannelHashFromRoot(uint8_t *_root_hash);
+    ChannelHash getChannelHashFromRoot(uint8_t *_root_hash, size_t);
 
-    bool getNextHash(uint8_t *_root_hash, uint8_t *, uint8_t *);
+    bool getNextHash(uint8_t *, size_t, uint8_t *, size_t, uint8_t *);
 
     // returns isnew
     bool getOrAddRootFromChannelHash(ChannelHash, uint8_t *);
@@ -88,9 +92,9 @@ class StoreForwardPlusPlusModule : public ProtobufModule<meshtastic_StoreForward
     // return indicates message found
     uint32_t getChainEnd(ChannelHash, uint8_t *, uint8_t *);
 
-    void requestNextMessage(uint8_t *, uint8_t *);
+    void requestNextMessage(uint8_t *, size_t, uint8_t *, size_t);
 
-    bool broadcastLink(uint8_t *, uint8_t *);
+    bool broadcastLink(uint8_t *, size_t);
 
     bool sendFromScratch(uint8_t);
 
@@ -100,15 +104,15 @@ class StoreForwardPlusPlusModule : public ProtobufModule<meshtastic_StoreForward
 
     void canonAnnounce(uint8_t *, uint8_t *, uint8_t *, uint32_t);
 
-    bool isInDB(uint8_t *);
+    bool isInDB(uint8_t *, size_t);
 
-    bool isInScratch(uint8_t *);
+    bool isInScratch(uint8_t *, size_t);
 
     link_object getFromScratch(uint8_t *, size_t);
 
-    void removeFromScratch(uint8_t *);
+    void removeFromScratch(uint8_t *, size_t);
 
-    void updatePayload(uint8_t *, std::string);
+    void updatePayload(uint8_t *, size_t, std::string);
 
     // does not set the root hash
     link_object ingestTextPacket(const meshtastic_MeshPacket &, const meshtastic_MeshPacket *);
