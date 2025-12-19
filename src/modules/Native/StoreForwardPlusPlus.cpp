@@ -168,7 +168,8 @@ StoreForwardPlusPlusModule::StoreForwardPlusPlusModule()
                        "rowid desc LIMIT 1;",
                        -1, &getChainEndStmt, NULL);
 
-    sqlite3_prepare_v2(ppDb, "select destination, sender, packet_id, encrypted_bytes, message_hash, rx_time, commit_hash \
+    sqlite3_prepare_v2(ppDb,
+                       "select destination, sender, packet_id, encrypted_bytes, message_hash, rx_time, commit_hash, root_hash \
         from channel_messages where substr(commit_hash,1,?)=?;",
                        -1, &getLinkStmt, NULL);
 
@@ -584,7 +585,7 @@ bool StoreForwardPlusPlusModule::broadcastLink(uint8_t *_commit_hash, size_t _co
     int rc;
     sqlite3_bind_int(getLinkStmt, 1, _commit_hash_len);
     sqlite3_bind_blob(getLinkStmt, 2, _commit_hash, _commit_hash_len, NULL);
-    sqlite3_step(getLinkStmt);
+    LOG_WARN("%d", sqlite3_step(getLinkStmt));
 
     meshtastic_StoreForwardPlusPlus storeforward = meshtastic_StoreForwardPlusPlus_init_zero;
     storeforward.sfpp_message_type = meshtastic_StoreForwardPlusPlus_SFPP_message_type_LINK_PROVIDE;
@@ -602,10 +603,12 @@ bool StoreForwardPlusPlusModule::broadcastLink(uint8_t *_commit_hash, size_t _co
     memcpy(storeforward.message_hash.bytes, _message_hash, storeforward.message_hash.size);
 
     storeforward.encapsulated_rxtime = sqlite3_column_int(getLinkStmt, 5);
-    storeforward.commit_hash.size = 8;
-    memcpy(storeforward.commit_hash.bytes, _commit_hash, storeforward.commit_hash.size);
 
-    uint8_t *_root_hash = (uint8_t *)sqlite3_column_blob(getLinkStmt, 6);
+    uint8_t *_tmp_commit_hash = (uint8_t *)sqlite3_column_blob(getLinkStmt, 6);
+    storeforward.commit_hash.size = 8;
+    memcpy(storeforward.commit_hash.bytes, _tmp_commit_hash, storeforward.commit_hash.size);
+
+    uint8_t *_root_hash = (uint8_t *)sqlite3_column_blob(getLinkStmt, 7);
     storeforward.root_hash.size = 8;
     memcpy(storeforward.root_hash.bytes, _root_hash, storeforward.root_hash.size);
 
@@ -912,6 +915,7 @@ StoreForwardPlusPlusModule::link_object StoreForwardPlusPlusModule::ingestLinkMe
         printBytes("Found full root hash: 0x", lo.root_hash, 32);
         lo.root_hash_len = 32;
     } else {
+        LOG_WARN("root hash does not match %d bytes", t->root_hash.size);
         printBytes("Using partial root hash: 0x", t->root_hash.bytes, t->root_hash.size);
         lo.root_hash_len = 0;
     }
@@ -980,6 +984,7 @@ bool StoreForwardPlusPlusModule::lookUpFullRootHash(uint8_t *partial_root_hash, 
                                                     uint8_t *full_root_hash)
 {
     LOG_WARN("lookUpFullRootHash");
+    printBytes("partial_root_hash", partial_root_hash, partial_root_hash_len);
     sqlite3_bind_int(getFullRootHashStmt, 1, partial_root_hash_len);
     sqlite3_bind_blob(getFullRootHashStmt, 2, partial_root_hash, partial_root_hash_len, NULL);
     sqlite3_step(getFullRootHashStmt);
