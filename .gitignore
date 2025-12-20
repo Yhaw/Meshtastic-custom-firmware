@@ -41,3 +41,13 @@ src/mesh/raspihttp/private_key.pem
 
 # Ignore logo (set at build time with platformio-custom.py)
 data/boot/logo.*
+
+# Documentation and Datasheets
+datasheet/
+datasheets/
+documentation/
+
+# Build Logs and Artifacts
+build_log.txt
+detailed_build.log
+compile_output.txt
