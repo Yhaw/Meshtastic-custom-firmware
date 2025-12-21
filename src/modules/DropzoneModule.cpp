@@ -1,7 +1,7 @@
 #if !MESHTASTIC_EXCLUDE_DROPZONE
 
 #include "DropzoneModule.h"
-#include "Meshservice->h"
+#include "MeshService.h"
 #include "configuration.h"
 #include "gps/GeoCoord.h"
 #include "gps/RTC.h"

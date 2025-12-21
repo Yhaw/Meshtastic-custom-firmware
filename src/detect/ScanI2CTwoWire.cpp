@@ -302,6 +302,15 @@ void ScanI2CTwoWire::scanPort(I2CPort port, uint8_t *address, uint8_t asize)
             case INA_ADDR:
             case INA_ADDR_ALTERNATE:
             case INA_ADDR_WAVESHARE_UPS:
+            case 0x46:
+            case 0x47:
+            case 0x49:
+            case 0x4A:
+            case 0x4B:
+            case 0x4C:
+            case 0x4D:
+            case 0x4E:
+            case 0x4F:
                 registerValue = getRegisterValue(ScanI2CTwoWire::RegisterLocation(addr, 0xFE), 2);
                 LOG_DEBUG("Register MFG_UID: 0x%x", registerValue);
                 if (registerValue == 0x5449) {
@@ -376,8 +385,22 @@ void ScanI2CTwoWire::scanPort(I2CPort port, uint8_t *address, uint8_t asize)
                     }
                     break;
                 }
-            case SHT31_4x_ADDR:     // same as OPT3001_ADDR_ALT
-            case SHT31_4x_ADDR_ALT: // same as OPT3001_ADDR
+            case SHT31_4x_ADDR:     // same as OPT3001_ADDR_ALT (0x44)
+            case SHT31_4x_ADDR_ALT: // same as OPT3001_ADDR (0x45)
+                // Check if it's an INA sensor first as they are common at 0x44/0x45
+                registerValue = getRegisterValue(ScanI2CTwoWire::RegisterLocation(addr, 0xFE), 2);
+                if (registerValue == 0x5449) {
+                    registerValue = getRegisterValue(ScanI2CTwoWire::RegisterLocation(addr, 0xFF), 2);
+                    if (registerValue == 0x2260) {
+                        logFoundDevice("INA226", (uint8_t)addr.address);
+                        type = INA226;
+                    } else {
+                        logFoundDevice("INA260", (uint8_t)addr.address);
+                        type = INA260;
+                    }
+                    break;
+                }
+
                 registerValue = getRegisterValue(ScanI2CTwoWire::RegisterLocation(addr, 0x7E), 2);
                 if (registerValue == 0x5449) {
                     type = OPT3001;
@@ -386,10 +409,16 @@ void ScanI2CTwoWire::scanPort(I2CPort port, uint8_t *address, uint8_t asize)
                     type = SHT4X;
                     logFoundDevice("SHT4X", (uint8_t)addr.address);
                 } else {
-                    type = SHT31;
-                    logFoundDevice("SHT31", (uint8_t)addr.address);
+                    // Try INA219 check as fallback for 0x44/0x45
+                    registerValue = getRegisterValue(ScanI2CTwoWire::RegisterLocation(addr, 0x00), 2);
+                    if (registerValue == 0x399F) { // Default INA219 Config
+                        type = INA219;
+                        logFoundDevice("INA219", (uint8_t)addr.address);
+                    } else {
+                        type = SHT31;
+                        logFoundDevice("SHT31", (uint8_t)addr.address);
+                    }
                 }
-
                 break;
 
                 SCAN_SIMPLE_CASE(SHTC3_ADDR, SHTC3, "SHTC3", (uint8_t)addr.address)
@@ -596,6 +625,26 @@ void ScanI2CTwoWire::scanPort(I2CPort port, uint8_t *address, uint8_t asize)
                 break;
 
             case 0x48: {
+                // Check for INA sensor first at 0x48
+                registerValue = getRegisterValue(ScanI2CTwoWire::RegisterLocation(addr, 0xFE), 2);
+                if (registerValue == 0x5449) {
+                    registerValue = getRegisterValue(ScanI2CTwoWire::RegisterLocation(addr, 0xFF), 2);
+                    if (registerValue == 0x2260) {
+                        logFoundDevice("INA226", (uint8_t)addr.address);
+                        type = INA226;
+                    } else {
+                        logFoundDevice("INA260", (uint8_t)addr.address);
+                        type = INA260;
+                    }
+                    break;
+                }
+                // Fallback check for INA219 at 0x48
+                if (getRegisterValue(ScanI2CTwoWire::RegisterLocation(addr, 0x00), 2) == 0x399F) {
+                    type = INA219;
+                    logFoundDevice("INA219", (uint8_t)addr.address);
+                    break;
+                }
+
                 i2cBus->beginTransmission(addr.address);
                 uint8_t getInfo[] = {0x5A, 0xC0, 0x00, 0xFF, 0xFC};
                 uint8_t expectedInfo[] = {0xa5, 0xE0, 0x00, 0x3F, 0x19};

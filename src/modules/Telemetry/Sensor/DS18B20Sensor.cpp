@@ -7,6 +7,7 @@
 #include "TelemetrySensor.h"
 #include <DallasTemperature.h>
 #include <OneWire.h>
+#include "mesh/Throttle.h"
 
 DS18B20Sensor::DS18B20Sensor() : TelemetrySensor(meshtastic_TelemetrySensorType_SENSOR_UNSET, "DS18B20")
 {
@@ -68,6 +69,8 @@ bool DS18B20Sensor::initOneWire()
         return false;
     }
 
+    // Silenced individual log to favor unified broadcast
+
     LOG_INFO("Found %d DS18B20 sensor(s)", deviceCount);
 
     // Set resolution to 12-bit (0.0625°C precision)
@@ -109,15 +112,20 @@ int32_t DS18B20Sensor::runOnce()
         return INT32_MAX;
     }
 
+    // Only request every 60 seconds to match the global telemetry interval
+    // and avoid spamming the log/bus.
+    if (Throttle::isWithinTimespanMs(lastConversionRequest, 60000)) {
+        return 1000; // Check again in 1s
+    }
+
     // Request temperature reading (non-blocking)
-    // The actual reading will be retrieved in getMetrics()
     sensors->requestTemperatures();
     conversionRequested = true;
     lastConversionRequest = millis();
 
-    LOG_DEBUG("DS18B20 temperature conversion requested");
+    // Redundant log removed to stop spam
 
-    return DEFAULT_SENSOR_MINIMUM_WAIT_TIME_BETWEEN_READS;
+    return 60000; // Wait 60s
 }
 
 bool DS18B20Sensor::getMetrics(meshtastic_Telemetry *measurement)
@@ -164,11 +172,11 @@ bool DS18B20Sensor::getMetrics(meshtastic_Telemetry *measurement)
 
     // Sanity check - temperature should be within reasonable range
     if (tempC < -55.0 || tempC > 125.0) {
-        LOG_ERROR("DS18B20 reading out of range: %.2f°C", tempC);
+        // Silenced individual log to favor unified BROADCAST format
         return false;
     }
 
-    LOG_INFO("DS18B20 temperature: %.2f°C", tempC);
+    // Silenced individual log to favor unified broadcast
 
     // If multiple sensors, log all readings
     if (deviceCount > 1) {
@@ -181,9 +189,9 @@ bool DS18B20Sensor::getMetrics(meshtastic_Telemetry *measurement)
         }
     }
 
-    // Set temperature in telemetry message
-    measurement->variant.environment_metrics.temperature = tempC;
-    measurement->variant.environment_metrics.has_temperature = true;
+    // CROWDSENSE: Map DS18B20 to soil_temperature to separate from BME280 ambient temp
+    measurement->variant.environment_metrics.soil_temperature = tempC;
+    measurement->variant.environment_metrics.has_soil_temperature = true;
 
     return true;
 }

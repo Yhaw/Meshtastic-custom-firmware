@@ -223,7 +223,7 @@ ErrorCode MeshService::sendQueueStatusToPhone(const meshtastic_QueueStatus &qs, 
     copied->mesh_packet_id = mesh_packet_id;
 
     if (toPhoneQueueStatusQueue.numFree() == 0) {
-        LOG_INFO("tophone queue status queue is full, discard oldest");
+        LOG_DEBUG("tophone queue status queue is full, discard oldest");
         meshtastic_QueueStatus *d = toPhoneQueueStatusQueue.dequeuePtr(0);
         if (d)
             releaseQueueStatusToPool(d);

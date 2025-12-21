@@ -7,7 +7,8 @@
 #include "CryptoEngine.h"
 #include "Default.h"
 #include "FSCommon.h"
-#include "MeshRadio.h"
+#include "PowerStatus.h"
+#include <cstddef>
 #include "MeshService.h"
 #include "NodeDB.h"
 #include "PacketHistory.h"
@@ -19,6 +20,8 @@
 #include "TypeConversions.h"
 #include "error.h"
 #include "main.h"
+#include <string.h>
+#include <stddef.h>
 #include "mesh-pb-constants.h"
 #include "meshUtils.h"
 #include "modules/NeighborInfoModule.h"
@@ -257,7 +260,17 @@ NodeDB::NodeDB()
     // Ensure macaddr is set to our macaddr as it will be copied in our info below
     memcpy(owner.macaddr, ourMacAddr, sizeof(owner.macaddr));
     // Ensure owner.id is always derived from the node number
+    // Ensure owner.id is always derived from the node number
     snprintf(owner.id, sizeof(owner.id), "!%08x", getNodeNum());
+
+    // CROWDSENSE: Set default name to Terra-XXXX    // Self-healing: if owner name is still Meshtastic, fix it globally
+    if (owner.long_name[0] == '\0' || strstr(owner.long_name, "Meshtastic") == owner.long_name) {
+        snprintf(owner.long_name, sizeof(owner.long_name), "Terra-%02x%02x", ourMacAddr[4], ourMacAddr[5]);
+        snprintf(owner.short_name, sizeof(owner.short_name), "%02x%02x", ourMacAddr[4], ourMacAddr[5]);
+        LOG_INFO("------------------------------------------------");
+        LOG_INFO("CROWDSENSE BRANDING: Self-Healed Name: %s", owner.long_name);
+        LOG_INFO("------------------------------------------------");
+    }
 
     if (!config.has_security) {
         config.has_security = true;
@@ -906,6 +919,18 @@ void NodeDB::installDefaultModuleConfig()
     moduleConfig.ambient_lighting.blue = myNodeInfo.my_node_num & 0x0000FF;
 
     initModuleConfigIntervals();
+
+#ifdef CROWD_SENSE_TERRA
+    // CROWDSENSE: Enable telemetry by default on boot
+    moduleConfig.telemetry.environment_measurement_enabled = true;
+    moduleConfig.telemetry.environment_update_interval = 60;
+    moduleConfig.telemetry.device_update_interval = 60;
+
+    // CROWDSENSE: Pipe INA219 to device battery status
+    config.power.device_battery_ina_address = 0x40; 
+    
+    LOG_INFO("CROWDSENSE: Telemetry enabled (60s) and INA219 battery reporting active");
+#endif
 }
 
 void NodeDB::installRoleDefaults(meshtastic_Config_DeviceConfig_Role role)
@@ -1089,7 +1114,7 @@ void NodeDB::installDefaultDeviceState()
 #ifdef USERPREFS_CONFIG_OWNER_LONG_NAME
     snprintf(owner.long_name, sizeof(owner.long_name), (const char *)USERPREFS_CONFIG_OWNER_LONG_NAME);
 #else
-    snprintf(owner.long_name, sizeof(owner.long_name), "Meshtastic %04x", getNodeNum() & 0x0ffff);
+    snprintf(owner.long_name, sizeof(owner.long_name), "Terra-%04x", getNodeNum() & 0x0ffff);
 #endif
 #ifdef USERPREFS_CONFIG_OWNER_SHORT_NAME
     snprintf(owner.short_name, sizeof(owner.short_name), (const char *)USERPREFS_CONFIG_OWNER_SHORT_NAME);

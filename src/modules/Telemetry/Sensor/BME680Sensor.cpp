@@ -64,6 +64,14 @@ bool BME680Sensor::getMetrics(meshtastic_Telemetry *measurement)
     measurement->variant.environment_metrics.gas_resistance = bme680.getData(BSEC_OUTPUT_RAW_GAS).signal / 1000.0;
     // Check if we need to save state to filesystem (every STATE_SAVE_PERIOD ms)
     measurement->variant.environment_metrics.iaq = bme680.getData(BSEC_OUTPUT_IAQ).signal;
+
+    LOG_INFO("CROWDSENSE BME680: [Temp:%.2fC Hum:%.1f%% Press:%.1fhPa Gas:%.1fkOhm IAQ:%u]",
+             measurement->variant.environment_metrics.temperature,
+             measurement->variant.environment_metrics.relative_humidity,
+             measurement->variant.environment_metrics.barometric_pressure,
+             measurement->variant.environment_metrics.gas_resistance,
+             (uint32_t)measurement->variant.environment_metrics.iaq);
+
     updateState();
     return true;
 }

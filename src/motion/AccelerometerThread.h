@@ -10,12 +10,24 @@
 #ifdef HAS_BMA423
 #include "BMA423Sensor.h"
 #endif
+#if !MESHTASTIC_EXCLUDE_BMM150
 #include "BMM150Sensor.h"
+#endif
+#if !MESHTASTIC_EXCLUDE_BMX160
 #include "BMX160Sensor.h"
+#endif
+#if !MESHTASTIC_EXCLUDE_ICM20948
 #include "ICM20948Sensor.h"
+#endif
+#if !MESHTASTIC_EXCLUDE_LIS3DH
 #include "LIS3DHSensor.h"
+#endif
+#if !MESHTASTIC_EXCLUDE_LSM6DS3
 #include "LSM6DS3Sensor.h"
+#endif
+#if !MESHTASTIC_EXCLUDE_MPU6050
 #include "MPU6050Sensor.h"
+#endif
 #include "MotionSensor.h"
 #ifdef HAS_QMA6100P
 #include "QMA6100PSensor.h"
@@ -89,16 +101,24 @@ class AccelerometerThread : public concurrency::OSThread
             break;
 #endif
         case ScanI2C::DeviceType::MPU6050:
+#if !MESHTASTIC_EXCLUDE_MPU6050
             sensor = new MPU6050Sensor(device);
+#endif
             break;
         case ScanI2C::DeviceType::BMX160:
+#if !MESHTASTIC_EXCLUDE_BMX160
             sensor = new BMX160Sensor(device);
+#endif
             break;
         case ScanI2C::DeviceType::LIS3DH:
+#if !MESHTASTIC_EXCLUDE_LIS3DH
             sensor = new LIS3DHSensor(device);
+#endif
             break;
         case ScanI2C::DeviceType::LSM6DS3:
+#if !MESHTASTIC_EXCLUDE_LSM6DS3
             sensor = new LSM6DS3Sensor(device);
+#endif
             break;
 #ifdef HAS_STK8XXX
         case ScanI2C::DeviceType::STK8BAXX:
@@ -106,10 +126,14 @@ class AccelerometerThread : public concurrency::OSThread
             break;
 #endif
         case ScanI2C::DeviceType::ICM20948:
+#if !MESHTASTIC_EXCLUDE_ICM20948
             sensor = new ICM20948Sensor(device);
+#endif
             break;
         case ScanI2C::DeviceType::BMM150:
+#if !MESHTASTIC_EXCLUDE_BMM150
             sensor = new BMM150Sensor(device);
+#endif
             break;
 #ifdef HAS_QMA6100P
         case ScanI2C::DeviceType::QMA6100P:

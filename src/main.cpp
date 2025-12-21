@@ -5,6 +5,7 @@
 #include "MeshRadio.h"
 #include "MeshService.h"
 #include "NodeDB.h"
+#include <string.h>
 #include "PowerFSM.h"
 #include "PowerMon.h"
 #include "ReliableRouter.h"
@@ -233,17 +234,23 @@ const char *firmware_version = optstr(APP_VERSION_SHORT);
 const char *getDeviceName()
 {
     uint8_t dmac[6];
-
     getMacAddr(dmac);
 
-    // Meshtastic_ab3c or Shortname_abcd
-    static char name[20];
-    snprintf(name, sizeof(name), "%02x%02x", dmac[4], dmac[5]);
-    // if the shortname exists and is NOT the new default of ab3c, use it for BLE name.
-    if (strcmp(owner.short_name, name) != 0) {
-        snprintf(name, sizeof(name), "%s_%02x%02x", owner.short_name, dmac[4], dmac[5]);
-    } else {
-        snprintf(name, sizeof(name), "Meshtastic_%02x%02x", dmac[4], dmac[5]);
+    // CROWDSENSE: Set default name to Terra-XXXX and handle self-healing
+    if (owner.long_name[0] == '\0' || strstr(owner.long_name, "Meshtastic") == owner.long_name) {
+        snprintf(owner.long_name, sizeof(owner.long_name), "Terra-%02x%02x", dmac[4], dmac[5]);
+        snprintf(owner.short_name, sizeof(owner.short_name), "%02x%02x", dmac[4], dmac[5]);
+        LOG_INFO("CROWDSENSE BRANDING: Applied Terra Name: %s", owner.long_name);
+    }
+
+    static char name[24];
+    // if long_name starts with Terra-, use it as is
+    if (strstr(owner.long_name, "Terra-") == owner.long_name) {
+         snprintf(name, sizeof(name), "%s", owner.long_name);
+    } 
+    // Fallback/Force Terra- prefix
+    else {
+         snprintf(name, sizeof(name), "Terra-%02x%02x", dmac[4], dmac[5]);
     }
     return name;
 }
@@ -792,9 +799,8 @@ void setup()
     rp2040Setup();
 #endif
 
-    // We do this as early as possible because this loads preferences from flash
-    // but we need to do this after main cpu init (esp32setup), because we need the random seed set
     nodeDB = new NodeDB;
+    LOG_INFO("CROWDSENSE BRANDING: Boot Name: %s", getDeviceName());
 
 #if HAS_TFT
     if (config.display.displaymode == meshtastic_Config_DisplayConfig_DisplayMode_COLOR) {

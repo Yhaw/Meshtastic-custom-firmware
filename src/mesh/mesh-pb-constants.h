@@ -24,7 +24,7 @@
 
 /// max number of QueueStatus packets which can be waiting for delivery to phone
 #ifndef MAX_RX_QUEUESTATUS_TOPHONE
-#define MAX_RX_QUEUESTATUS_TOPHONE 2
+#define MAX_RX_QUEUESTATUS_TOPHONE 4
 #endif
 
 /// max number of MqttClientProxyMessage packets which can be waiting for delivery to phone

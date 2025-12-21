@@ -1,3 +1,4 @@
+#pragma once
 #include "configuration.h"
 
 #if !MESHTASTIC_EXCLUDE_ENVIRONMENTAL_SENSOR && __has_include(<Adafruit_LTR390.h>)

@@ -1,3 +1,4 @@
+#pragma once
 #include "configuration.h"
 
 #if HAS_TELEMETRY && !MESHTASTIC_EXCLUDE_ENVIRONMENTAL_SENSOR && __has_include(<Adafruit_INA219.h>)

@@ -19,11 +19,15 @@
 #include <OLEDDisplayUi.h>
 
 // Sensors
+#if !MESHTASTIC_EXCLUDE_MAX30102
 #include "Sensor/MAX30102Sensor.h"
-#include "Sensor/MLX90614Sensor.h"
-
 MAX30102Sensor max30102Sensor;
+#endif
+
+#if !MESHTASTIC_EXCLUDE_MLX90614
+#include "Sensor/MLX90614Sensor.h"
 MLX90614Sensor mlx90614Sensor;
+#endif
 
 #define FAILED_STATE_SENSOR_READ_MULTIPLIER 10
 #define DISPLAY_RECEIVEID_MEASUREMENTS_ON_SCREEN true
@@ -57,10 +61,14 @@ int32_t HealthTelemetryModule::runOnce()
         if (moduleConfig.telemetry.health_measurement_enabled) {
             LOG_INFO("Health Telemetry: init");
             // Initialize sensors
+#if !MESHTASTIC_EXCLUDE_MLX90614
             if (mlx90614Sensor.hasSensor())
                 result = mlx90614Sensor.runOnce();
+#endif
+#if !MESHTASTIC_EXCLUDE_MAX30102
             if (max30102Sensor.hasSensor())
                 result = max30102Sensor.runOnce();
+#endif
         }
         return result == UINT32_MAX ? disable() : setStartDelay();
     } else {
@@ -174,14 +182,18 @@ bool HealthTelemetryModule::getHealthTelemetry(meshtastic_Telemetry *m)
     m->which_variant = meshtastic_Telemetry_health_metrics_tag;
     m->variant.health_metrics = meshtastic_HealthMetrics_init_zero;
 
+#if !MESHTASTIC_EXCLUDE_MAX30102
     if (max30102Sensor.hasSensor()) {
         valid = valid && max30102Sensor.getMetrics(m);
         hasSensor = true;
     }
+#endif
+#if !MESHTASTIC_EXCLUDE_MLX90614
     if (mlx90614Sensor.hasSensor()) {
         valid = valid && mlx90614Sensor.getMetrics(m);
         hasSensor = true;
     }
+#endif
 
     return valid && hasSensor;
 }
