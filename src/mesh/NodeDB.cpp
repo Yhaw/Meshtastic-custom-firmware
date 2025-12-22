@@ -445,6 +445,20 @@ NodeDB::NodeDB()
 #endif
     }
 #endif
+
+#ifdef CROWD_SENSE_TERRA
+    // CROWDSENSE: FORCE telemetry settings on EVERY boot (overrides saved config)
+    // This ensures all nodes broadcast environmental data regardless of role or saved settings
+    if (!moduleConfig.telemetry.environment_measurement_enabled || 
+        moduleConfig.telemetry.environment_update_interval != 120) {
+        LOG_INFO("CROWDSENSE: Forcing telemetry enabled (120s interval) on boot");
+        moduleConfig.telemetry.environment_measurement_enabled = true;
+        moduleConfig.telemetry.environment_update_interval = 120;
+        moduleConfig.telemetry.device_update_interval = 120;
+        saveWhat |= SEGMENT_MODULECONFIG; // Mark for save
+    }
+#endif
+
     sortMeshDB();
     saveToDisk(saveWhat);
 }
@@ -923,15 +937,15 @@ void NodeDB::installDefaultModuleConfig()
     initModuleConfigIntervals();
 
 #ifdef CROWD_SENSE_TERRA
-    // CROWDSENSE: Enable telemetry by default on boot
+    // CROWDSENSE: Enable telemetry by default on boot for ALL roles
     moduleConfig.telemetry.environment_measurement_enabled = true;
-    moduleConfig.telemetry.environment_update_interval = 60;
-    moduleConfig.telemetry.device_update_interval = 60;
+    moduleConfig.telemetry.environment_update_interval = 120;  // Match SENSOR role (2 minutes)
+    moduleConfig.telemetry.device_update_interval = 120;
 
     // CROWDSENSE: Pipe INA219 to device battery status
     config.power.device_battery_ina_address = 0x40; 
     
-    LOG_INFO("CROWDSENSE: Telemetry enabled (60s) and INA219 battery reporting active");
+    LOG_INFO("CROWDSENSE: Telemetry enabled (120s) and INA219 battery reporting active");
 #endif
 }
 

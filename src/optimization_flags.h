@@ -1,6 +1,9 @@
 #ifndef OPTIMIZATION_FLAGS_H
 #define OPTIMIZATION_FLAGS_H
 
+// Global CrowdSense Terra Configuration
+#define CROWD_SENSE_TERRA 1
+
 // These are already defined in platformio.ini for some environments, 
 // using #ifndef to prevent redefinition warnings.
 #ifndef USE_THREAD_NAMES
