@@ -20,6 +20,9 @@
 // DS18B20 OneWire Temperature Sensor
 #define ONEWIRE_PIN 25 // GPIO 25 for DS18B20 data line (requires 4.7kΩ pull-up to 3.3V)
 
+// Capacitive Soil Moisture Sensor (Analog)
+#define SOIL_PIN 34 
+
 #define LORA_DIO0 26  // a No connect on the SX1262/SX1268 module
 #define LORA_RESET 23 // RST for SX1276, and for SX1262/SX1268
 #define LORA_DIO1 33  // IRQ for SX1262/SX1268

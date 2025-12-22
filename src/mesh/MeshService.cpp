@@ -109,7 +109,12 @@ int MeshService::handleFromRadio(const meshtastic_MeshPacket *mp)
     }
 
     printPacket("Forwarding to phone", mp);
-    sendToPhone(packetPool.allocCopy(*mp));
+    meshtastic_MeshPacket *copy = packetPool.allocCopy(*mp);
+    if (copy) {
+        sendToPhone(copy);
+    } else {
+        LOG_WARN("Failed to allocate memory for forwarding to phone");
+    }
 
     return 0;
 }
@@ -218,6 +223,10 @@ bool MeshService::cancelSending(PacketId id)
 ErrorCode MeshService::sendQueueStatusToPhone(const meshtastic_QueueStatus &qs, ErrorCode res, uint32_t mesh_packet_id)
 {
     meshtastic_QueueStatus *copied = queueStatusPool.allocCopy(qs);
+    if (!copied) {
+        LOG_WARN("Failed to allocate memory for queue status copy");
+        return ERRNO_UNKNOWN;
+    }
 
     copied->res = res;
     copied->mesh_packet_id = mesh_packet_id;
@@ -229,7 +238,8 @@ ErrorCode MeshService::sendQueueStatusToPhone(const meshtastic_QueueStatus &qs, 
             releaseQueueStatusToPool(d);
     }
 
-    lastQueueStatus = *copied;
+    if (copied)
+        lastQueueStatus = *copied;
 
     res = toPhoneQueueStatusQueue.enqueue(copied, 0);
     fromNum++;
@@ -239,6 +249,10 @@ ErrorCode MeshService::sendQueueStatusToPhone(const meshtastic_QueueStatus &qs, 
 
 void MeshService::sendToMesh(meshtastic_MeshPacket *p, RxSource src, bool ccToPhone)
 {
+    if (!p) {
+        LOG_WARN("Cannot send null packet to mesh");
+        return;
+    }
     uint32_t mesh_packet_id = p->id;
     nodeDB->updateFrom(*p); // update our local DB for this packet (because phone might have sent position packets etc...)
 
@@ -258,7 +272,11 @@ void MeshService::sendToMesh(meshtastic_MeshPacket *p, RxSource src, bool ccToPh
         auto a = packetPool.allocCopy(*p);
         DEBUG_HEAP_AFTER("MeshService::sendToMesh", a);
 
-        sendToPhone(a);
+        if (a) {
+            sendToPhone(a);
+        } else {
+            LOG_WARN("Failed to allocate memory for CC to phone");
+        }
     }
 
     // Router may ask us to release the packet if it wasn't sent
@@ -292,6 +310,9 @@ bool MeshService::trySendPosition(NodeNum dest, bool wantReplies)
 
 void MeshService::sendToPhone(meshtastic_MeshPacket *p)
 {
+    if (!p) {
+        return; // Safety check
+    }
     perhapsDecode(p);
 
 #ifdef ARCH_ESP32

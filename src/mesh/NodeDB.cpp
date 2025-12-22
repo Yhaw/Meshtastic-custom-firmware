@@ -335,6 +335,7 @@ NodeDB::NodeDB()
 
     // If we are setup to broadcast on the default channel, ensure that the telemetry intervals are coerced to the minimum value
     // of 30 minutes or more
+    /* CROWDSENSE: Disabled to allow 2-minute updates on default channel
     if (channels.isDefaultChannel(channels.getPrimaryIndex())) {
         LOG_DEBUG("Coerce telemetry to min of 30 minutes on defaults");
         moduleConfig.telemetry.device_update_interval = Default::getConfiguredOrMinimumValue(
@@ -348,6 +349,7 @@ NodeDB::NodeDB()
         moduleConfig.telemetry.health_update_interval = Default::getConfiguredOrMinimumValue(
             moduleConfig.telemetry.health_update_interval, min_default_telemetry_interval_secs);
     }
+    */
     // FIXME: UINT32_MAX intervals overflows Apple clients until they are fully patched
     if (config.device.node_info_broadcast_secs > MAX_INTERVAL)
         config.device.node_info_broadcast_secs = MAX_INTERVAL;
@@ -951,7 +953,7 @@ void NodeDB::installRoleDefaults(meshtastic_Config_DeviceConfig_Role role)
         owner.is_unmessagable = true;
         moduleConfig.telemetry.device_update_interval = default_telemetry_broadcast_interval_secs;
         moduleConfig.telemetry.environment_measurement_enabled = true;
-        moduleConfig.telemetry.environment_update_interval = 300;
+        moduleConfig.telemetry.environment_update_interval = 120; // Force 2 minutes for CrowdSense
     } else if (role == meshtastic_Config_DeviceConfig_Role_LOST_AND_FOUND) {
         config.position.position_broadcast_smart_enabled = false;
         config.position.position_broadcast_secs = 300; // Every 5 minutes

@@ -58,6 +58,7 @@ bool DS18B20Sensor::initOneWire()
     // Initialize sensors
     sensors->begin();
     deviceCount = sensors->getDeviceCount();
+    LOG_INFO("DS18B20: Found %d sensors on GPIO %d", deviceCount, ONEWIRE_PIN);
 
     if (deviceCount == 0) {
         LOG_WARN("No DS18B20 sensors found on GPIO %d", ONEWIRE_PIN);

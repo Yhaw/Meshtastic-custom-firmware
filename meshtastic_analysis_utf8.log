@@ -1,0 +1,1640 @@
+﻿Processing meshtastic-diy-v1 (board: esp32doit-devkit-v1; platform: 
+platformio/espressif32@6.12.0; framework: arduino)
+--------------------------------------------------------------------------------
+Verbose mode can be enabled via `-v, --verbose` option
+PROGNAME: firmware-meshtastic-diy-v1-2.7.17.bbcd0498d
+ESP32_FS_IMAGE_NAME: littlefs-meshtastic-diy-v1-2.7.17.bbcd0498d
+CONFIGURATION: https://docs.platformio.org/page/boards/espressif32/esp32doit-devkit-v1.html
+PLATFORM: Espressif 32 (6.12.0) > DOIT ESP32 DEVKIT V1
+HARDWARE: ESP32 240MHz, 320KB RAM, 4MB Flash
+DEBUG: Current (cmsis-dap) External (cmsis-dap, esp-bridge, esp-prog, iot-bus-jtag, jlink, minimodule, olimex-arm-usb-ocd, olimex-arm-usb-ocd-h, olimex-arm-usb-tiny-h, olimex-jtag-tiny, tumpa)
+PACKAGES: 
+ - framework-arduinoespressif32 @ 3.20017.241212+sha.dcc1105b 
+ - tool-esptoolpy @ 2.40900.250804 (4.9.0) 
+ - toolchain-xtensa-esp32 @ 8.4.0+2021r2-patch5
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ chain, Compatibility ~ soft
+[nanopb] No generation needed.
+Found 66 compatible libraries
+Scanning dependencies...
+Dependency Graph
+|-- ESP8266 and ESP32 OLED driver for SSD1306 displays @ 4.4.1
+|-- OneButton @ 2.6.1
+|-- arduino-fsm @ 2.2.0
+|-- TinyGPSPlus @ 1.0.3
+|-- ArduinoThread @ 0.0.0+20251219014431
+|-- Nanopb @ 0.4.91
+|-- ErriezCRC32 @ 1.0.1
+|-- OneWire @ 2.3.8
+|-- DallasTemperature @ 3.11.0
+|-- LiquidCrystal_I2C @ 0.0.0+20251221111231
+|-- NonBlockingRTTTL @ 1.4.0
+|-- TBPubSubClient @ 2.12.1
+|-- NTPClient @ 3.2.1
+|-- Syslog @ 2.0.0
+|-- RadioLib @ 7.4.0
+|-- Adafruit BusIO @ 1.17.4
+|-- Adafruit Unified Sensor @ 1.1.15
+|-- Adafruit BME280 Library @ 2.3.0
+|-- bsec2 @ 1.10.2610
+|-- BME68x Sensor library @ 1.3.40408
+|-- Adafruit INA219 @ 1.2.3
+|-- Adafruit VEML7700 Library @ 2.1.6
+|-- Adafruit LTR390 Library @ 1.1.2
+|-- Adafruit MPU6050 @ 2.2.4
+|-- Adafruit LIS3DH @ 1.2.6
+|-- esp32_https_server @ 1.0.0
+|-- NimBLE-Arduino @ 1.4.3
+|-- libpax @ 1.1.0
+|-- XPowersLib @ 0.3.2
+|-- ESP32 Codec2 @ 1.0.1
+|-- Crypto @ 0.4.0
+|-- SD @ 2.0.0
+|-- SPI @ 2.0.0
+|-- WiFi @ 2.0.0
+|-- Wire @ 2.0.0
+|-- Preferences @ 2.0.0
+|-- HTTPClient @ 2.0.0
+|-- WiFiClientSecure @ 2.0.0
+|-- WebServer @ 2.0.0
+|-- ESPmDNS @ 2.0.0
+|-- LittleFS @ 2.0.0
+|-- ESP32 Async UDP @ 2.0.0
+|-- Adafruit NeoPixel @ 1.15.2
+Building in release mode
+Using meshtastic platformio-custom.py, firmware version 2.7.17.bbcd0498d on meshtastic-diy-v1
+Using flags:
+-DAPP_VERSION=2.7.17.bbcd0498d
+-DAPP_VERSION_SHORT=2.7.17
+-DAPP_ENV=meshtastic-diy-v1
+-DAPP_REPO=Yhaw/Meshtastic-custom-firmware
+-DBUILD_EPOCH=1766361600
+-DUSERPREFS_RINGTONE_RTTTL=\"24:d=32,o=5,b=565:f6,p,f6,4p,p,f6,p,f6,2p,p,b6,p,b6,p,b6,p,b6,p,b,p,b,p,b,p,b,p,b,p,b,p,b,p,b,1p.,2p.,p\"
+-DUSERPREFS_TZ_STRING=\"tzplaceholder                                         \"
+Compiling .pio\build\meshtastic-diy-v1\src\BluetoothCommon.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\DebugConfiguration.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\DisplayFormatters.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\FSCommon.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\Fusion\FusionAhrs.c.o
+Compiling .pio\build\meshtastic-diy-v1\src\Fusion\FusionCompass.c.o
+Compiling .pio\build\meshtastic-diy-v1\src\Fusion\FusionOffset.c.o
+Compiling .pio\build\meshtastic-diy-v1\src\GpioLogic.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\Led.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\Observer.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\Power.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\PowerFSM.cpp.o
+pio : cc1.exe: warning: command line 
+option '-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+At line:1 char:1
++ pio run -e meshtastic-diy-v1 > 
+meshtastic_analysis.log 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpec 
+   ified: (cc1.exe: warnin...+ but n  
+  ot for C:String) [], RemoteExcept   
+ ion
+    + FullyQualifiedErrorId : NativeC 
+   ommandError
+ 
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\src\PowerMon.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\RedirectablePrint.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\SPILock.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\SafeFile.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\SerialConsole.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\airtime.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\buzz\BuzzerFeedbackThread.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\buzz\buzz.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\concurrency\BinarySemaphoreFreeRTOS.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\concurrency\BinarySemaphorePosix.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\concurrency\InterruptableDelay.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\concurrency\Lock.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\concurrency\LockGuard.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\concurrency\NotifiedWorkerThread.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\concurrency\OSThread.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\detect\ScanI2C.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\detect\ScanI2CConsumer.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\detect\ScanI2CTwoWire.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\gps\GPS.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\gps\GPSUpdateScheduling.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\gps\GeoCoord.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\gps\NMEAWPL.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\gps\RTC.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\EInkDisplay2.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\EInkDynamicDisplay.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\LCDDisplay.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\Panel_sdl.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\Screen.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\ScreenGlobals.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\SharedUIDisplay.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\TFTDisplay.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\TimeFormatters.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\VirtualKeyboard.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\draw\ClockRenderer.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\draw\CompassRenderer.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\draw\DebugRenderer.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\draw\MenuHandler.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\draw\MessageRenderer.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\draw\NodeListRenderer.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\draw\NotificationRenderer.cpp.o
+src/graphics/Screen.cpp: In 
+constructor 'graphics::Screen::Screen(
+ScanI2C::DeviceAddress, meshtastic_Con
+fig_DisplayConfig_OledType, 
+OLEDDISPLAY_GEOMETRY)':
+src/graphics/Screen.cpp:333:24: 
+warning: comparison is always true 
+due to limited range of data type 
+[-Wtype-limits]
+         if (TFT_MESH_r <= 255 && 
+TFT_MESH_g <= 255 && TFT_MESH_b <= 
+255) {
+             ~~~~~~~~~~~^~~~~~
+src/graphics/Screen.cpp:333:45: 
+warning: comparison is always true 
+due to limited range of data type 
+[-Wtype-limits]
+         if (TFT_MESH_r <= 255 && 
+TFT_MESH_g <= 255 && TFT_MESH_b <= 
+255) {
+                                  
+~~~~~~~~~~~^~~~~~
+src/graphics/Screen.cpp:333:66: 
+warning: comparison is always true 
+due to limited range of data type 
+[-Wtype-limits]
+         if (TFT_MESH_r <= 255 && 
+TFT_MESH_g <= 255 && TFT_MESH_b <= 
+255) {
+                                      
+                 ~~~~~~~~~~~^~~~~~
+src/graphics/Screen.cpp: In member 
+function 'void graphics::Screen::setFr
+ames(graphics::Screen::FrameFocus)':
+src/graphics/Screen.cpp:1033:10: 
+warning: unused variable 
+'willInsertTextMessage' 
+[-Wunused-variable]
+     bool willInsertTextMessage = shou
+ldDrawMessage(&devicestate.rx_text_mes
+sage);
+          ^~~~~~~~~~~~~~~~~~~~~
+src/graphics/Screen.cpp: In member 
+function 'virtual int32_t 
+graphics::Screen::runOnce()':
+src/graphics/Screen.cpp:861:47: 
+warning: this statement may fall 
+through [-Wimplicit-fallthrough=]
+             
+NotificationRenderer::pauseBanner = 
+false;
+             ~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~^~~~~~~
+src/graphics/Screen.cpp:862:9: note: 
+here
+         case Cmd::STOP_BOOT_SCREEN:
+         ^~~~
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\draw\UIRenderer.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\emotes.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\fonts\EinkDisplayFonts.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\fonts\OLEDDisplayFontsCS.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\fonts\OLEDDisplayFontsPL.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\fonts\OLEDDisplayFontsRU.cpp.o
+src/graphics/VirtualKeyboard.cpp: In 
+member function 'void graphics::Virtua
+lKeyboard::drawInputArea(OLEDDisplay*,
+ int16_t, int16_t, int16_t)':
+src/graphics/VirtualKeyboard.cpp:357:2
+3: warning: unused variable 
+'innerLeft' [-Wunused-variable]
+             const int innerLeft = 
+boxX + 1;
+                       ^~~~~~~~~
+src/graphics/VirtualKeyboard.cpp:358:2
+3: warning: unused variable 
+'innerRight' [-Wunused-variable]
+             const int innerRight = 
+boxX + boxWidth - 2;
+                       ^~~~~~~~~~
+src/graphics/draw/ClockRenderer.cpp: 
+In function 'void graphics::ClockRende
+rer::drawDigitalClockFrame(OLEDDisplay
+*, OLEDDisplayUiState*, int16_t, 
+int16_t)':
+src/graphics/draw/ClockRenderer.cpp:19
+5:9: warning: unused variable 'line' 
+[-Wunused-variable]
+     int line = 0;
+         ^~~~
+src/graphics/draw/ClockRenderer.cpp: 
+In function 'void graphics::ClockRende
+rer::drawAnalogClockFrame(OLEDDisplay*
+, OLEDDisplayUiState*, int16_t, 
+int16_t)':
+src/graphics/draw/ClockRenderer.cpp:34
+2:9: warning: unused variable 'line' 
+[-Wunused-variable]
+     int line = 0;
+         ^~~~
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\fonts\OLEDDisplayFontsUA.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\graphics\tftSetup.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\BBQ10Keyboard.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\ButtonThread.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\ExpressLRSFiveWay.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\HackadayCommunicatorKeyboard.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\InputBroker.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\LinuxInput.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\LinuxInputImpl.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\MPR121Keyboard.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\RotaryEncoderImpl.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\RotaryEncoderInterruptBase.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\RotaryEncoderInterruptImpl1.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\SeesawRotary.cpp.o
+src/graphics/draw/UIRenderer.cpp: In 
+static member function 'static void gr
+aphics::UIRenderer::drawCompassAndLoca
+tionScreen(OLEDDisplay*, 
+OLEDDisplayUiState*, int16_t, 
+int16_t)':
+src/graphics/draw/UIRenderer.cpp:985:3
+0: warning: unused variable 'ourNode' 
+[-Wunused-variable]
+     meshtastic_NodeInfoLite *ourNode 
+= nodeDB->getMeshNode(nodeDB->getNodeN
+um());
+                              ^~~~~~~
+Compiling .pio\build\meshtastic-diy-v1\src\input\SerialKeyboard.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\SerialKeyboardImpl.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\TCA8418Keyboard.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\TCA8418KeyboardBase.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\TDeckProKeyboard.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\TLoraPagerKeyboard.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\TouchScreenBase.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\TouchScreenImpl1.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\TrackballInterruptBase.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\TrackballInterruptImpl1.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\UpDownInterruptBase.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\UpDownInterruptImpl1.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\cardKbI2cImpl.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\i2cButton.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\kbI2cBase.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\kbMatrixBase.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\input\kbMatrixImpl.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\main.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\memGet.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\meshUtils.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\Channels.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\CryptoEngine.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\Default.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\FloodingRouter.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\InterfacesTemplates.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\LLCC68Interface.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\LR1110Interface.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\LR1120Interface.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\LR1121Interface.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\LR11x0Interface.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\MeshModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\MeshPacketQueue.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\MeshService.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\NextHopRouter.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\NodeDB.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\PacketCache.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\PacketHistory.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\PhoneAPI.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\ProtobufModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\RF95Interface.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\RadioInterface.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\RadioLibInterface.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\RadioLibRF95.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\ReliableRouter.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\Router.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\STM32WLE5JCInterface.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\SX1262Interface.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\SX1268Interface.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\SX126xInterface.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\SX1280Interface.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\SX128xInterface.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\StreamAPI.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\Throttle.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\TypeConversions.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\aes-ccm.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\api\PacketAPI.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\api\ServerAPI.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\api\WiFiServerAPI.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\compression\unishox2.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\admin.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\apponly.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\atak.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\cannedmessages.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\channel.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\clientonly.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\config.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\connection_status.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\device_ui.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\deviceonly.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\interdevice.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\localonly.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\mesh.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\module_config.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\mqtt.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\paxcount.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\portnums.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\powermon.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\remote_hardware.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\rtttl.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\storeforward.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\telemetry.pb.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\generated\meshtastic\xmodem.pb.cpp.o
+src/mesh/aes-ccm.cpp: In function 
+'int constant_time_compare(const 
+void*, const void*, size_t)':
+src/mesh/aes-ccm.cpp:24:76: warning: 
+type qualifiers ignored on cast 
+result type [-Wignored-qualifiers]
+     const volatile uint8_t *volatile 
+a = (const volatile uint8_t 
+*volatile)a_;
+                                      
+                                      
+^~
+src/mesh/aes-ccm.cpp:25:76: warning: 
+type qualifiers ignored on cast 
+result type [-Wignored-qualifiers]
+     const volatile uint8_t *volatile 
+b = (const volatile uint8_t 
+*volatile)b_;
+                                      
+                                      
+^~
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\http\ContentHandler.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\http\ContentHelper.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\http\WebServer.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\mesh-pb-constants.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mesh\wifi\WiFiAPClient.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\AdminModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\AtakPluginModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\CannedMessageModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\DetectionSensorModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\DropzoneModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\ExternalNotificationModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\GenericThreadModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\KeyVerificationModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Modules.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\NeighborInfoModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\NodeInfoModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\OnScreenKeyboardModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\PositionModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\PowerStressModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\RangeTestModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\RemoteHardwareModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\ReplyModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\RoutingModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\SerialModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\StatusLEDModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\StoreForwardModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\SystemCommandsModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Telemetry\AirQualityTelemetry.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Telemetry\DeviceTelemetry.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Telemetry\EnvironmentTelemetry.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Telemetry\HealthTelemetry.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Telemetry\HostMetrics.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Telemetry\PowerTelemetry.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Telemetry\Sensor\BME280Sensor.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Telemetry\Sensor\BME680Sensor.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Telemetry\Sensor\CGRadSensSensor.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Telemetry\Sensor\CapacitiveSoilSensor.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Telemetry\Sensor\DS18B20Sensor.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Telemetry\Sensor\INA219Sensor.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Telemetry\Sensor\LTR390UVSensor.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Telemetry\Sensor\RCWL9620Sensor.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Telemetry\Sensor\TelemetrySensor.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Telemetry\Sensor\VEML7700Sensor.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Telemetry\Sensor\nullSensor.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\Telemetry\UnitConversions.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\TextMessageModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\TraceRouteModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\WaypointModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\esp32\AudioModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\modules\esp32\PaxcounterModule.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\motion\LIS3DHSensor.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\motion\MPU6050Sensor.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\motion\MotionSensor.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mqtt\MQTT.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\mqtt\ServiceEnvelope.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\network-stubs.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\nimble\NimbleBluetooth.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\platform\esp32\BleOta.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\platform\esp32\ESP32CryptoEngine.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\platform\esp32\SimpleAllocator.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\platform\esp32\WiFiOTA.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\platform\esp32\iram-quirk.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\src\platform\esp32\main-esp32.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\platform\extra_variants\heltec_wireless_tracker\variant.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\platform\extra_variants\t_deck_pro\variant.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\platform\extra_variants\t_lora_pager\variant.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\platform\extra_variants\tbeam_displayshield\variant.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\serialization\JSON.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\serialization\JSONValue.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\serialization\MeshPacketSerializer.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\serialization\MeshPacketSerializer_nRF52.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\serialization\cobs.cpp.o
+src/nimble/NimbleBluetooth.cpp: In 
+member function 'virtual void Bluetoot
+hPhoneAPI::onNowHasData(uint32_t)':
+src/nimble/NimbleBluetooth.cpp:316:13:
+ warning: unused variable 
+'currentNotifyCount' 
+[-Wunused-variable]
+         int currentNotifyCount = 
+notifyCount.fetch_add(1);
+             ^~~~~~~~~~~~~~~~~~
+src/nimble/NimbleBluetooth.cpp:318:17:
+ warning: unused variable 'cc' 
+[-Wunused-variable]
+         uint8_t cc = 
+bleServer->getConnectedCount();
+                 ^~
+Compiling .pio\build\meshtastic-diy-v1\src\sleep.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\src\xmodem.cpp.o
+Building .pio\build\meshtastic-diy-v1\bootloader.bin
+Generating partitions .pio\build\meshtastic-diy-v1\partitions.bin
+esptool.py v4.9.0
+Creating esp32 image...
+Merged 1 ELF section
+Successfully created esp32 image.
+Compiling .pio\build\meshtastic-diy-v1\lib652\Wire\Wire.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libf2c\SPI\SPI.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib63c\ESP8266 and ESP32 OLED driver for SSD1306 displays\OLEDDisplay.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib63c\ESP8266 and ESP32 OLED driver for SSD1306 displays\OLEDDisplayFonts.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib63c\ESP8266 and ESP32 OLED driver for SSD1306 displays\OLEDDisplayUi.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libff2\OneButton\OneButton.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libff2\OneButton\OneButtonTiny.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libb56\arduino-fsm\Fsm.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libb05\TinyGPSPlus\TinyGPS++.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib652\libWire.a
+Compiling .pio\build\meshtastic-diy-v1\libbb5\ArduinoThread\Thread.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\libf2c\libSPI.a
+Compiling .pio\build\meshtastic-diy-v1\libbb5\ArduinoThread\ThreadController.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib8cd\Nanopb\pb_common.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib8cd\Nanopb\pb_decode.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib8cd\Nanopb\pb_encode.c.o
+Compiling .pio\build\meshtastic-diy-v1\libbad\ErriezCRC32\ErriezCRC32.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Archiving .pio\build\meshtastic-diy-v1\lib63c\libESP8266 and ESP32 OLED driver for SSD1306 displays.a
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib905\OneWire\OneWire.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib8cd\libNanopb.a
+Archiving .pio\build\meshtastic-diy-v1\libbad\libErriezCRC32.a
+Archiving .pio\build\meshtastic-diy-v1\libb56\libarduino-fsm.a
+Archiving .pio\build\meshtastic-diy-v1\libff2\libOneButton.a
+Compiling .pio\build\meshtastic-diy-v1\libeaf\DallasTemperature\DallasTemperature.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\libb05\libTinyGPSPlus.a
+Compiling .pio\build\meshtastic-diy-v1\lib3a7\LiquidCrystal_I2C\LiquidCrystal_I2C.cpp.o
+.pio/libdeps/meshtastic-diy-v1/OneWire
+/OneWire.cpp:599:22: warning: extra 
+tokens at end of #undef directive
+ #  undef noInterrupts() 
+{portMUX_TYPE mux = portMUX_INITIALIZE
+R_UNLOCKED;portENTER_CRITICAL(&mux)
+                      ^
+.pio/libdeps/meshtastic-diy-v1/OneWire
+/OneWire.cpp:600:20: warning: extra 
+tokens at end of #undef directive
+ #  undef interrupts() 
+portEXIT_CRITICAL(&mux);}
+                    ^
+Compiling .pio\build\meshtastic-diy-v1\lib1e4\NonBlockingRTTTL\NonBlockingRtttl.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\libbb5\libArduinoThread.a
+Compiling .pio\build\meshtastic-diy-v1\lib4e2\TBPubSubClient\PubSubClient.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib905\libOneWire.a
+Compiling .pio\build\meshtastic-diy-v1\libf72\NTPClient\NTPClient.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib697\Syslog\Syslog.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\libeaf\libDallasTemperature.a
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\Hal.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib3a7\libLiquidCrystal_I2C.a
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\Module.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\hal\Arduino\ArduinoHal.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\hal\RPiPico\PicoHal.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib1e4\libNonBlockingRTTTL.a
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\CC1101\CC1101.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\LLCC68\LLCC68.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\LR11x0\LR1110.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\LR11x0\LR1120.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\LR11x0\LR1121.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\LR11x0\LR11x0.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib4e2\libTBPubSubClient.a
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\LR11x0\LR11x0_commands.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\LR11x0\LR11x0_crypto.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\libf72\libNTPClient.a
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\LR11x0\LR11x0_gnss.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib697\libSyslog.a
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\LR11x0\LR11x0_wifi.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\RF69\RF69.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX123x\SX1231.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX123x\SX1233.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX126x\STM32WLx.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX126x\STM32WLx_Module.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX126x\SX1261.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX126x\SX1262.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX126x\SX1268.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX126x\SX126x.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX126x\SX126x_LR_FHSS.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX126x\SX126x_commands.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX126x\SX126x_config.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX127x\SX1272.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX127x\SX1273.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX127x\SX1276.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX127x\SX1277.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX127x\SX1278.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX127x\SX1279.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX127x\SX127x.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX128x\SX1280.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX128x\SX1281.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX128x\SX1282.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\SX128x\SX128x.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\Si443x\Si4430.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\Si443x\Si4431.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\Si443x\Si4432.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\Si443x\Si443x.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\modules\nRF24\nRF24.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\protocols\AFSK\AFSK.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\protocols\APRS\APRS.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\protocols\AX25\AX25.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\protocols\BellModem\BellModem.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\protocols\ExternalRadio\ExternalRadio.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\protocols\FSK4\FSK4.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\protocols\Hellschreiber\Hellschreiber.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\protocols\LoRaWAN\LoRaWAN.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\protocols\LoRaWAN\LoRaWANBands.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\protocols\Morse\Morse.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\protocols\Pager\Pager.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\protocols\PhysicalLayer\PhysicalLayer.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\protocols\Print\ITA2String.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\protocols\Print\Print.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\protocols\RTTY\RTTY.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\protocols\SSTV\SSTV.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\utils\CRC.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\utils\Cryptography.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\utils\FEC.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib843\RadioLib\utils\Utils.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libc55\Adafruit BusIO\Adafruit_BusIO_Register.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libc55\Adafruit BusIO\Adafruit_GenericDevice.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libc55\Adafruit BusIO\Adafruit_I2CDevice.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libc55\Adafruit BusIO\Adafruit_SPIDevice.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib85c\Adafruit Unified Sensor\Adafruit_Sensor.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libc0c\Adafruit BME280 Library\Adafruit_BME280.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib0f9\BME68x Sensor library\bme68xLibrary.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib843\libRadioLib.a
+Compiling .pio\build\meshtastic-diy-v1\lib0f9\BME68x Sensor library\bme68x\bme68x.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib18e\bsec2\bsec2.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib18e\bsec2\commMux\commMux.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib4b5\Adafruit INA219\Adafruit_INA219.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib85c\libAdafruit Unified Sensor.a
+Archiving .pio\build\meshtastic-diy-v1\libc55\libAdafruit BusIO.a
+Compiling .pio\build\meshtastic-diy-v1\libd0a\Adafruit VEML7700 Library\Adafruit_VEML7700.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib76b\Adafruit LTR390 Library\Adafruit_LTR390.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\libc0c\libAdafruit BME280 Library.a
+Compiling .pio\build\meshtastic-diy-v1\lib608\Adafruit MPU6050\Adafruit_MPU6050.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib0f9\libBME68x Sensor library.a
+Compiling .pio\build\meshtastic-diy-v1\lib091\Adafruit LIS3DH\Adafruit_LIS3DH.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib18e\libbsec2.a
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\ConnectionContext.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\libd0a\libAdafruit VEML7700 Library.a
+Archiving .pio\build\meshtastic-diy-v1\lib4b5\libAdafruit INA219.a
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\HTTPConnection.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\HTTPHeader.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\HTTPHeaders.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\HTTPMultipartBodyParser.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\HTTPNode.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\HTTPRequest.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\HTTPResponse.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\HTTPSConnection.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib76b\libAdafruit LTR390 Library.a
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\HTTPSServer.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib608\libAdafruit MPU6050.a
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\HTTPServer.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib091\libAdafruit LIS3DH.a
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\HTTPURLEncodedBodyParser.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\HTTPValidator.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\ResolvedResource.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\ResourceNode.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\ResourceParameters.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\ResourceResolver.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\SSLCert.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\ValidatorFunctions.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\WebsocketHandler.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\WebsocketInputStreambuf.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\WebsocketNode.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libe3f\esp32_https_server\util.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLE2904.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLEAddress.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLEAdvertisedDevice.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLEAdvertising.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLEBeacon.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLECharacteristic.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLEClient.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLEDescriptor.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLEDevice.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLEEddystoneTLM.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLEEddystoneURL.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\libe3f\libesp32_https_server.a
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLEExtAdvertising.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLEHIDDevice.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLERemoteCharacteristic.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLERemoteDescriptor.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLERemoteService.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLEScan.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLESecurity.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLEServer.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLEService.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLEUUID.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\NimBLEUtils.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\esp_port\esp-hci\src\esp_nimble_hci.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\esp_port\port\src\esp_nimble_mem.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\ext\tinycrypt\src\aes_decrypt.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\ext\tinycrypt\src\aes_encrypt.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\ext\tinycrypt\src\cbc_mode.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\ext\tinycrypt\src\ccm_mode.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\ext\tinycrypt\src\cmac_mode.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\ext\tinycrypt\src\ctr_mode.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\ext\tinycrypt\src\ctr_prng.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\ext\tinycrypt\src\ecc.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\ext\tinycrypt\src\ecc_dh.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\ext\tinycrypt\src\ecc_dsa.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\ext\tinycrypt\src\ecc_platform_specific.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\ext\tinycrypt\src\hmac.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\ext\tinycrypt\src\hmac_prng.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\ext\tinycrypt\src\sha256.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\ext\tinycrypt\src\utils.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll_adv.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll_conn.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll_conn_hci.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll_ctrl.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll_dtm.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll_hci.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll_hci_ev.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll_iso.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll_rand.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll_resolv.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll_rfmgmt.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll_scan.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll_sched.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll_supp_cmd.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll_sync.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll_trace.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll_utils.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\controller\src\ble_ll_whitelist.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\drivers\nrf51\src\ble_hw.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\drivers\nrf51\src\ble_phy.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\drivers\nrf52\src\ble_hw.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\drivers\nrf52\src\ble_phy.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\drivers\nrf52\src\ble_phy_trace.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\access.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\adv.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\aes-ccm.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\app_keys.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\beacon.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\cdb.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\cfg.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\cfg_cli.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\cfg_srv.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\crypto.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\friend.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\glue.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\health_cli.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\health_srv.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\heartbeat.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\light_model.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\lpn.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\mesh.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\model_cli.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\model_srv.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\net.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\nodes.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\pb_adv.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\pb_gatt.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\prov.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\prov_device.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\provisioner.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\proxy.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\rpl.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\settings.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\shell.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\subnet.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\mesh\src\transport.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\services\ans\src\ble_svc_ans.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\services\bas\src\ble_svc_bas.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\services\dis\src\ble_svc_dis.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\services\gap\src\ble_svc_gap.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\services\gatt\src\ble_svc_gatt.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\services\ias\src\ble_svc_ias.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\services\ipss\src\ble_svc_ipss.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\services\lls\src\ble_svc_lls.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_att.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_att_clt.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_att_cmd.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_att_svr.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_eddystone.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_gap.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_gattc.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_gatts.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_gatts_lcl.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_adv.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_atomic.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_cfg.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_conn.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_flow.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_hci.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_hci_cmd.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_hci_evt.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_hci_util.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_id.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_log.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_mbuf.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_misc.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_mqueue.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_periodic_sync.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_pvcy.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_resolv.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_shutdown.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_startup.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_hs_stop.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_ibeacon.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_l2cap.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_l2cap_coc.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_l2cap_sig.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_l2cap_sig_cmd.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_monitor.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_sm.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_sm_alg.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_sm_cmd.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_sm_lgcy.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_sm_sc.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_store.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_store_util.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\src\ble_uuid.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\store\config\src\ble_store_config.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\store\config\src\ble_store_config_conf.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\store\config\src\ble_store_nvs.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\host\util\src\addr.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\nimble\transport\ram\src\ble_hci_ram.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\porting\nimble\src\endian.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\porting\nimble\src\hal_timer.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\porting\nimble\src\hal_uart.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\porting\nimble\src\mem.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\porting\nimble\src\nimble_port.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\porting\nimble\src\os_cputime.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\porting\nimble\src\os_cputime_pwr2.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\porting\nimble\src\os_mbuf.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\porting\nimble\src\os_mempool.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\porting\nimble\src\os_msys_init.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\porting\npl\freertos\src\nimble_port_freertos.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib734\NimBLE-Arduino\nimble\porting\npl\freertos\src\npl_os_freertos.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib9d3\libpax\blescan.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib9d3\libpax\bt_hci_common.c.o
+Compiling .pio\build\meshtastic-diy-v1\lib9d3\libpax\libpax.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib9d3\libpax\libpax_api.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib9d3\libpax\wifiscan.cpp.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib46c\XPowersLib\XPowersLibInterface.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib734\libNimBLE-Arduino.a
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\ButterworthFilter.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\SampleFilter.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\codebook.c.o
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\codebookd.c.o
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\codebookdt.c.o
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\codebookge.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\codebookjnd.c.o
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\codebookjvm.c.o
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\codebooklspmelvq.c.o
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\codebookmel.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\codebookres.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\codebookvq.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\codebookvqanssi.c.o
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\codec2.c.o
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\dump.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\fifo.c.o
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\interp.c.o
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\kiss_fft.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\lpc.c.o
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\lsp.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\nlp.c.o
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\pack.c.o
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\phase.c.o
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\phaseexp.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\postfilter.c.o
+Archiving .pio\build\meshtastic-diy-v1\lib9d3\libpax.a
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\quantise.c.o
+Compiling .pio\build\meshtastic-diy-v1\libd2e\ESP32 Codec2\sine.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\AES128.cpp.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\AES192.cpp.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\AES256.cpp.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\AESCommon.cpp.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Archiving .pio\build\meshtastic-diy-v1\lib46c\libXPowersLib.a
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\AESEsp32.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\AuthenticatedCipher.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\BLAKE2b.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\BLAKE2s.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\BigNumberUtil.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\BlockCipher.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\CTR.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\ChaCha.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\ChaChaPoly.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\Cipher.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\Crypto.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\libd2e\libESP32 Codec2.a
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\Curve25519.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\EAX.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\Ed25519.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\GCM.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\GF128.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\GHASH.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\HKDF.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\Hash.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\KeccakCore.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\NoiseSource.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\OMAC.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\P521.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\Poly1305.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\RNG.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\SHA224.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\SHA256.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\SHA3.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\SHA384.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\SHA512.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\SHAKE.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\XOF.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1eb\Crypto\XTS.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1b7\FS\FS.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib1b7\FS\vfs_api.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib65f\SD\SD.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib65f\SD\sd_diskio.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib65f\SD\sd_diskio_crc.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib475\WiFi\WiFi.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib475\WiFi\WiFiAP.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib475\WiFi\WiFiClient.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib475\WiFi\WiFiGeneric.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib1eb\libCrypto.a
+Compiling .pio\build\meshtastic-diy-v1\lib475\WiFi\WiFiMulti.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib475\WiFi\WiFiSTA.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib475\WiFi\WiFiScan.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib475\WiFi\WiFiServer.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib475\WiFi\WiFiUdp.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib1b7\libFS.a
+Compiling .pio\build\meshtastic-diy-v1\lib9de\Preferences\Preferences.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib742\WiFiClientSecure\WiFiClientSecure.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib65f\libSD.a
+Compiling .pio\build\meshtastic-diy-v1\lib742\WiFiClientSecure\esp_crt_bundle.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\lib742\WiFiClientSecure\ssl_client.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libd5b\HTTPClient\HTTPClient.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib475\libWiFi.a
+Compiling .pio\build\meshtastic-diy-v1\lib590\WebServer\Parsing.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib9de\libPreferences.a
+Compiling .pio\build\meshtastic-diy-v1\lib590\WebServer\WebServer.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib590\WebServer\detail\mimetable.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libc27\ESPmDNS\ESPmDNS.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libecc\LittleFS\LittleFS.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\lib968\AsyncUDP\AsyncUDP.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib742\libWiFiClientSecure.a
+Compiling .pio\build\meshtastic-diy-v1\libb89\Adafruit NeoPixel\Adafruit_NeoPixel.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libb89\Adafruit NeoPixel\Adafruit_Neopixel_RP2.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\libb89\Adafruit NeoPixel\esp.c.o
+Compiling .pio\build\meshtastic-diy-v1\libb89\Adafruit NeoPixel\esp8266.c.o
+Compiling .pio\build\meshtastic-diy-v1\libb89\Adafruit NeoPixel\kendyte_k210.c.o
+Compiling .pio\build\meshtastic-diy-v1\libb89\Adafruit NeoPixel\psoc6.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\Esp.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib590\libWebServer.a
+Archiving .pio\build\meshtastic-diy-v1\libd5b\libHTTPClient.a
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\FirmwareMSC.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\libc27\libESPmDNS.a
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\FunctionalInterrupt.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\HWCDC.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\HardwareSerial.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\IPAddress.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\IPv6Address.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\MD5Builder.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\Print.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\Stream.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\StreamString.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\libecc\libLittleFS.a
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\Tone.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\lib968\libAsyncUDP.a
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\USB.cpp.o
+Archiving .pio\build\meshtastic-diy-v1\libb89\libAdafruit NeoPixel.a
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\USBCDC.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\USBMSC.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\WMath.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\WString.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\base64.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\cbuf.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-adc.c.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-bt.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-cpu.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-dac.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-gpio.c.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-i2c-slave.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-i2c.c.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-ledc.c.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-matrix.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-misc.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-psram.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-rgb-led.c.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-rmt.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-sigmadelta.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-spi.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-time.c.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-timer.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-tinyusb.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-touch.c.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\esp32-hal-uart.c.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\firmware_msc_fat.c.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\libb64\cdecode.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\libb64\cencode.c.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\main.cpp.o
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\stdlib_noniso.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\wiring_pulse.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Compiling .pio\build\meshtastic-diy-v1\FrameworkArduino\wiring_shift.c.o
+cc1.exe: warning: command line option 
+'-faligned-new=1' is valid for 
+C++/ObjC++ but not for C
+Archiving .pio\build\meshtastic-diy-v1\libFrameworkArduino.a
+Linking .pio\build\meshtastic-diy-v1\firmware-meshtastic-diy-v1-2.7.17.bbcd0498d.elf
+.pio/libdeps/meshtastic-diy-v1/Crypto/
+AESEsp32.cpp:33:5: warning: type of 
+'esp_aes_setkey' does not match 
+original declaration 
+[-Wlto-type-mismatch]
+ int esp_aes_setkey(unsigned char 
+*ctx, const unsigned char *key,
+     ^
+C:/Users/ArnoldSylvianKimkpe/.platform
+io/packages/framework-arduinoespressif
+32/tools/sdk/esp32/include/mbedtls/mbe
+dtls/include/mbedtls/aes.h:184:5: 
+note: 'esp_aes_setkey' was previously 
+declared here
+ int mbedtls_aes_setkey_dec(mbedtls_ae
+s_context *ctx, const unsigned char 
+*key,
+     ^
+C:/Users/ArnoldSylvianKimkpe/.platform
+io/packages/framework-arduinoespressif
+32/tools/sdk/esp32/include/mbedtls/mbe
+dtls/include/mbedtls/aes.h:184:5: 
+note: code may be misoptimized unless 
+-fno-strict-aliasing is used
+Retrieving maximum program size .pio\build\meshtastic-diy-v1\firmware-meshtastic-diy-v1-2.7.17.bbcd0498d.elf
+Checking size .pio\build\meshtastic-diy-v1\firmware-meshtastic-diy-v1-2.7.17.bbcd0498d.elf
+Advanced Memory Usage is available via "PlatformIO Home > Project Inspect"
+RAM:   [====      ]  37.0% (used 121252 bytes from 327680 bytes)
+Flash: [========= ]  90.0% (used 2182817 bytes from 2424832 bytes)
+Building .pio\build\meshtastic-diy-v1\firmware-meshtastic-diy-v1-2.7.17.bbcd0498d.bin
+esptool.py v4.9.0
+Creating esp32 image...
+Merged 27 ELF sections
+Successfully created esp32 image.
+esp32_create_combined_bin([".pio\build\meshtastic-diy-v1\firmware-meshtastic-diy-v1-2.7.17.bbcd0498d.bin"], [".pio\build\meshtastic-diy-v1\firmware-meshtastic-diy-v1-2.7.17.bbcd0498d.elf"])
+Generating combined binary for serial flashing
+    Offset | File
+ -  0x1000 | C:\Users\ArnoldSylvianKimkpe\Documents\PlatformIO\Projects\Meshtastic-custom-firmware\.pio\build\meshtastic-diy-v1\bootloader.bin
+ -  0x8000 | C:\Users\ArnoldSylvianKimkpe\Documents\PlatformIO\Projects\Meshtastic-custom-firmware\.pio\build\meshtastic-diy-v1\partitions.bin
+ -  0xe000 | C:\Users\ArnoldSylvianKimkpe\.platformio\packages\framework-arduinoespressif32\tools\partitions\boot_app0.bin
+ - 0x10000 | C:\Users\ArnoldSylvianKimkpe\Documents\PlatformIO\Projects\Meshtastic-custom-firmware\.pio\build\meshtastic-diy-v1/firmware-meshtastic-diy-v1-2.7.17.bbcd0498d.bin
+Using esptool.py arguments: --chip esp32 merge_bin -o C:\Users\ArnoldSylvianKimkpe\Documents\PlatformIO\Projects\Meshtastic-custom-firmware\.pio\build\meshtastic-diy-v1/firmware-meshtastic-diy-v1-2.7.17.bbcd0498d.factory.bin --flash_mode dio --flash_freq 40m --flash_size 4MB 0x1000 C:\Users\ArnoldSylvianKimkpe\Documents\PlatformIO\Projects\Meshtastic-custom-firmware\.pio\build\meshtastic-diy-v1\bootloader.bin 0x8000 C:\Users\ArnoldSylvianKimkpe\Documents\PlatformIO\Projects\Meshtastic-custom-firmware\.pio\build\meshtastic-diy-v1\partitions.bin 0xe000 C:\Users\ArnoldSylvianKimkpe\.platformio\packages\framework-arduinoespressif32\tools\partitions\boot_app0.bin 0x10000 C:\Users\ArnoldSylvianKimkpe\Documents\PlatformIO\Projects\Meshtastic-custom-firmware\.pio\build\meshtastic-diy-v1/firmware-meshtastic-diy-v1-2.7.17.bbcd0498d.bin
+Warning: Deprecated: Option '--flash_mode' is deprecated. Use '--flash-mode' instead.
+Warning: Deprecated: Option '--flash_freq' is deprecated. Use '--flash-freq' instead.
+Warning: Deprecated: Option '--flash_size' is deprecated. Use '--flash-size' instead.
+Warning: Deprecated: Command 'merge_bin' is deprecated. Use 'merge-bin' instead.
+esptool v5.1.0
+SHA digest in image updated.
+Wrote 0x2268e0 bytes to file 'C:\Users\ArnoldSylvianKimkpe\Documents\PlatformIO\Projects\Meshtastic-custom-firmware\.pio\build\meshtastic-diy-v1/firmware-meshtastic-diy-v1-2.7.17.bbcd0498d.factory.bin', ready to flash to offset 0x0.
+======================== [SUCCESS] Took 307.22 seconds ========================
+
+Environment        Status    Duration
+-----------------  --------  ------------
+meshtastic-diy-v1  SUCCESS   00:05:07.221
+========================= 1 succeeded in 00:05:07.221 =========================

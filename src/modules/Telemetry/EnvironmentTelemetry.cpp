@@ -1,4 +1,3 @@
-#include <stddef.h>
 #include "configuration.h"
 
 #if HAS_TELEMETRY && !MESHTASTIC_EXCLUDE_ENVIRONMENTAL_SENSOR
@@ -25,6 +24,7 @@
 #if !MESHTASTIC_EXCLUDE_ENVIRONMENTAL_SENSOR_EXTERNAL
 
 // Sensors
+#include "Sensor/CapacitiveSoilSensor.h"
 #include "Sensor/CGRadSensSensor.h"
 #include "Sensor/RCWL9620Sensor.h"
 #include "Sensor/nullSensor.h"
@@ -34,32 +34,113 @@ namespace graphics
 extern void drawCommonHeader(OLEDDisplay *display, int16_t x, int16_t y, const char *titleStr, bool force_no_invert,
                              bool show_date);
 }
-#if defined(ENABLE_DS18B20) && __has_include(<DallasTemperature.h>)
-#include "Sensor/DS18B20Sensor.h"
+#if __has_include(<Adafruit_AHTX0.h>)
+#include "Sensor/AHT10.h"
 #endif
 
-#if defined(ENABLE_SOIL_MOISTURE_CAPACITIVE)
-#include "Sensor/CapacitiveSoilSensor.h"
-#endif
-
-#if defined(ENABLE_BME280) && __has_include(<Adafruit_BME280.h>)
+#if __has_include(<Adafruit_BME280.h>)
 #include "Sensor/BME280Sensor.h"
 #endif
 
-#if defined(ENABLE_BME680) && __has_include(<bsec2.h>)
-#include "Sensor/BME680Sensor.h"
+#if __has_include(<Adafruit_BMP085.h>)
+#include "Sensor/BMP085Sensor.h"
 #endif
 
-#if defined(ENABLE_LTR390) && __has_include(<Adafruit_LTR390.h>)
+#if __has_include(<Adafruit_BMP280.h>)
+#include "Sensor/BMP280Sensor.h"
+#endif
+
+#if __has_include(<Adafruit_LTR390.h>)
 #include "Sensor/LTR390UVSensor.h"
 #endif
 
-#if defined(ENABLE_VEML7700) && __has_include(<Adafruit_VEML7700.h>)
+#if __has_include(<bsec2.h>)
+#include "Sensor/BME680Sensor.h"
+#endif
+
+#if __has_include(<Adafruit_DPS310.h>)
+#include "Sensor/DPS310Sensor.h"
+#endif
+
+#if __has_include(<Adafruit_MCP9808.h>)
+#include "Sensor/MCP9808Sensor.h"
+#endif
+
+#if __has_include(<Adafruit_SHT31.h>)
+#include "Sensor/SHT31Sensor.h"
+#endif
+
+#if __has_include(<Adafruit_LPS2X.h>)
+#include "Sensor/LPS22HBSensor.h"
+#endif
+
+#if __has_include(<Adafruit_SHTC3.h>)
+#include "Sensor/SHTC3Sensor.h"
+#endif
+
+#if __has_include("RAK12035_SoilMoisture.h") && defined(RAK_4631) && RAK_4631 == 1
+#include "Sensor/RAK12035Sensor.h"
+#endif
+
+#if __has_include(<Adafruit_VEML7700.h>)
 #include "Sensor/VEML7700Sensor.h"
 #endif
 
-#if defined(ENABLE_INA219) && __has_include(<Adafruit_INA219.h>)
-#include "Sensor/INA219Sensor.h"
+#if __has_include(<Adafruit_TSL2591.h>)
+#include "Sensor/TSL2591Sensor.h"
+#endif
+
+#if __has_include(<ClosedCube_OPT3001.h>)
+#include "Sensor/OPT3001Sensor.h"
+#endif
+
+#if __has_include(<Adafruit_SHT4x.h>)
+#include "Sensor/SHT4XSensor.h"
+#endif
+
+#if __has_include(<SparkFun_MLX90632_Arduino_Library.h>)
+#include "Sensor/MLX90632Sensor.h"
+#endif
+
+#if __has_include(<DFRobot_LarkWeatherStation.h>)
+#include "Sensor/DFRobotLarkSensor.h"
+#endif
+
+#if __has_include(<DFRobot_RainfallSensor.h>)
+#include "Sensor/DFRobotGravitySensor.h"
+#endif
+
+#if __has_include(<SparkFun_Qwiic_Scale_NAU7802_Arduino_Library.h>)
+#include "Sensor/NAU7802Sensor.h"
+#endif
+
+#if __has_include(<Adafruit_BMP3XX.h>)
+#include "Sensor/BMP3XXSensor.h"
+#endif
+
+#if __has_include(<Adafruit_PCT2075.h>)
+#include "Sensor/PCT2075Sensor.h"
+#endif
+
+#endif
+#ifdef T1000X_SENSOR_EN
+#include "Sensor/T1000xSensor.h"
+#endif
+
+#ifdef SENSECAP_INDICATOR
+#include "Sensor/IndicatorSensor.h"
+#endif
+
+#if __has_include(<Adafruit_TSL2561_U.h>)
+#include "Sensor/TSL2561Sensor.h"
+#endif
+
+#if __has_include(<BH1750_WE.h>)
+#include "Sensor/BH1750Sensor.h"
+#endif
+
+#if __has_include(<DallasTemperature.h>)
+#include "Sensor/DS18B20Sensor.h"
 #endif
 
 #define FAILED_STATE_SENSOR_READ_MULTIPLIER 10
@@ -105,36 +186,100 @@ void EnvironmentTelemetryModule::i2cScanFinished(ScanI2C *i2cScanner)
 
     // order by priority of metrics/values (low top, high bottom)
 
-#if defined(ENABLE_BME680) && __has_include(<bsec2.h>)
-    if (i2cScanner->exists(ScanI2C::DeviceType::BME_680)) {
-        addSensor<BME680Sensor>(i2cScanner, ScanI2C::DeviceType::BME_680);
-    } else
+#if !MESHTASTIC_EXCLUDE_ENVIRONMENTAL_SENSOR
+#ifdef T1000X_SENSOR_EN
+    // Not a real I2C device
+    addSensor<T1000xSensor>(i2cScanner, ScanI2C::DeviceType::NONE);
+#else
+#ifdef SENSECAP_INDICATOR
+    // Not a real I2C device, uses UART
+    addSensor<IndicatorSensor>(i2cScanner, ScanI2C::DeviceType::NONE);
 #endif
-#if defined(ENABLE_BME280) && __has_include(<Adafruit_BME280.h>)
-    if (i2cScanner->exists(ScanI2C::DeviceType::BME_280)) {
-        addSensor<BME280Sensor>(i2cScanner, ScanI2C::DeviceType::BME_280);
-    }
+    addSensor<RCWL9620Sensor>(i2cScanner, ScanI2C::DeviceType::RCWL9620);
+    addSensor<CGRadSensSensor>(i2cScanner, ScanI2C::DeviceType::CGRADSENS);
+#endif
 #endif
 
-#if defined(ENABLE_LTR390) && __has_include(<Adafruit_LTR390.h>)
+#if !MESHTASTIC_EXCLUDE_ENVIRONMENTAL_SENSOR && !MESHTASTIC_EXCLUDE_ENVIRONMENTAL_SENSOR_EXTERNAL
+#if __has_include(<DFRobot_LarkWeatherStation.h>)
+    addSensor<DFRobotLarkSensor>(i2cScanner, ScanI2C::DeviceType::DFROBOT_LARK);
+#endif
+#if __has_include(<DFRobot_RainfallSensor.h>)
+    addSensor<DFRobotGravitySensor>(i2cScanner, ScanI2C::DeviceType::DFROBOT_RAIN);
+#endif
+#if __has_include(<Adafruit_AHTX0.h>)
+    addSensor<AHT10Sensor>(i2cScanner, ScanI2C::DeviceType::AHT10);
+#endif
+#if __has_include(<Adafruit_BMP085.h>)
+    addSensor<BMP085Sensor>(i2cScanner, ScanI2C::DeviceType::BMP_085);
+#endif
+#if __has_include(<Adafruit_BME280.h>)
+    addSensor<BME280Sensor>(i2cScanner, ScanI2C::DeviceType::BME_280);
+#endif
+#if __has_include(<Adafruit_LTR390.h>)
     addSensor<LTR390UVSensor>(i2cScanner, ScanI2C::DeviceType::LTR390UV);
 #endif
-
-#if defined(ENABLE_VEML7700) && __has_include(<Adafruit_VEML7700.h>)
+#if __has_include(<bsec2.h>)
+    addSensor<BME680Sensor>(i2cScanner, ScanI2C::DeviceType::BME_680);
+#endif
+#if __has_include(<Adafruit_BMP280.h>)
+    addSensor<BMP280Sensor>(i2cScanner, ScanI2C::DeviceType::BMP_280);
+#endif
+#if __has_include(<Adafruit_DPS310.h>)
+    addSensor<DPS310Sensor>(i2cScanner, ScanI2C::DeviceType::DPS310);
+#endif
+#if __has_include(<Adafruit_MCP9808.h>)
+    addSensor<MCP9808Sensor>(i2cScanner, ScanI2C::DeviceType::MCP9808);
+#endif
+#if __has_include(<Adafruit_SHT31.h>)
+    addSensor<SHT31Sensor>(i2cScanner, ScanI2C::DeviceType::SHT31);
+#endif
+#if __has_include(<Adafruit_LPS2X.h>)
+    addSensor<LPS22HBSensor>(i2cScanner, ScanI2C::DeviceType::LPS22HB);
+#endif
+#if __has_include(<Adafruit_SHTC3.h>)
+    addSensor<SHTC3Sensor>(i2cScanner, ScanI2C::DeviceType::SHTC3);
+#endif
+#if __has_include("RAK12035_SoilMoisture.h") && defined(RAK_4631) && RAK_4631 == 1
+    addSensor<RAK12035Sensor>(i2cScanner, ScanI2C::DeviceType::RAK12035);
+#endif
+#if __has_include(<Adafruit_VEML7700.h>)
     addSensor<VEML7700Sensor>(i2cScanner, ScanI2C::DeviceType::VEML7700);
 #endif
-
-#if defined(ENABLE_INA219) && __has_include(<Adafruit_INA219.h>)
-    addSensor<INA219Sensor>(i2cScanner, ScanI2C::DeviceType::INA219);
+#if __has_include(<Adafruit_TSL2591.h>)
+    addSensor<TSL2591Sensor>(i2cScanner, ScanI2C::DeviceType::TSL2591);
+#endif
+#if __has_include(<ClosedCube_OPT3001.h>)
+    addSensor<OPT3001Sensor>(i2cScanner, ScanI2C::DeviceType::OPT3001);
+#endif
+#if __has_include(<Adafruit_SHT4x.h>)
+    addSensor<SHT4XSensor>(i2cScanner, ScanI2C::DeviceType::SHT4X);
+#endif
+#if __has_include(<SparkFun_MLX90632_Arduino_Library.h>)
+    addSensor<MLX90632Sensor>(i2cScanner, ScanI2C::DeviceType::MLX90632);
 #endif
 
-#if defined(ENABLE_DS18B20) && __has_include(<DallasTemperature.h>)
+#if __has_include(<Adafruit_BMP3XX.h>)
+    addSensor<BMP3XXSensor>(i2cScanner, ScanI2C::DeviceType::BMP_3XX);
+#endif
+#if __has_include(<Adafruit_PCT2075.h>)
+    addSensor<PCT2075Sensor>(i2cScanner, ScanI2C::DeviceType::PCT2075);
+#endif
+#if __has_include(<Adafruit_TSL2561_U.h>)
+    addSensor<TSL2561Sensor>(i2cScanner, ScanI2C::DeviceType::TSL2561);
+#endif
+#if __has_include(<SparkFun_Qwiic_Scale_NAU7802_Arduino_Library.h>)
+    addSensor<NAU7802Sensor>(i2cScanner, ScanI2C::DeviceType::NAU7802);
+#endif
+#if __has_include(<BH1750_WE.h>)
+    addSensor<BH1750Sensor>(i2cScanner, ScanI2C::DeviceType::BH1750);
+#endif
+#if __has_include(<DallasTemperature.h>)
     // DS18B20 uses OneWire, not I2C, so we pass NONE as device type
     addSensor<DS18B20Sensor>(i2cScanner, ScanI2C::DeviceType::NONE);
 #endif
-
-#if defined(ENABLE_SOIL_MOISTURE_CAPACITIVE)
-    // Analog sensor
+#ifdef ENABLE_SOIL_MOISTURE_CAPACITIVE
+    // Capacitive soil moisture sensor is analog, not I2C
     addSensor<CapacitiveSoilSensor>(i2cScanner, ScanI2C::DeviceType::NONE);
 #endif
 
@@ -181,22 +326,14 @@ int32_t EnvironmentTelemetryModule::runOnce()
 
 #ifdef T1000X_SENSOR_EN
 #elif !MESHTASTIC_EXCLUDE_ENVIRONMENTAL_SENSOR_EXTERNAL
-#if !MESHTASTIC_EXCLUDE_INA219
             if (ina219Sensor.hasSensor())
                 result = ina219Sensor.runOnce();
-#endif
-#if !MESHTASTIC_EXCLUDE_INA260
             if (ina260Sensor.hasSensor())
                 result = ina260Sensor.runOnce();
-#endif
-#if !MESHTASTIC_EXCLUDE_INA3221
             if (ina3221Sensor.hasSensor())
                 result = ina3221Sensor.runOnce();
-#endif
-#if !MESHTASTIC_EXCLUDE_MAX17048
             if (max17048Sensor.hasSensor())
                 result = max17048Sensor.runOnce();
-#endif
                 // this only works on the wismesh hub with the solar option. This is not an I2C sensor, so we don't need the
                 // sensormap here.
 #ifdef HAS_RAKPROT
@@ -341,7 +478,8 @@ void EnvironmentTelemetryModule::drawFrame(OLEDDisplay *display, OLEDDisplayUiSt
         static uint32_t lastAlertTime = 0;
         uint32_t now = millis();
 
-        bool isOwnTelemetry = lastMeasurementPacket->from == nodeDB->getNodeNum();
+        // Safety: check lastMeasurementPacket again before use
+        bool isOwnTelemetry = (lastMeasurementPacket && lastMeasurementPacket->from == nodeDB->getNodeNum());
         bool isCooldownOver = (now - lastAlertTime > 60000);
 
         if (isOwnTelemetry && bannerMsg && isCooldownOver) {
@@ -395,37 +533,38 @@ void EnvironmentTelemetryModule::drawFrame(OLEDDisplay *display, OLEDDisplayUiSt
     }
     graphics::drawCommonFooter(display, x, y);
 }
+#include "graphics/LCDDisplay.h"
 #endif
 
 bool EnvironmentTelemetryModule::handleReceivedProtobuf(const meshtastic_MeshPacket &mp, meshtastic_Telemetry *t)
 {
     if (t->which_variant == meshtastic_Telemetry_environment_metrics_tag) {
+#if HAS_SCREEN
+        // Update fallback LCD if present
+        if (graphics::lcdDisplay) {
+            graphics::lcdDisplay->displayTelemetry(mp.from, t->variant.environment_metrics);
+        }
+#endif
 #if defined(DEBUG_PORT) && !defined(DEBUG_MUTE)
         const char *sender = getSenderShortName(mp);
-
-        LOG_INFO("CROWDSENSE REMOTE from %s: [Temp:%.2fC Hum:%.1f%% Press:%.1fhPa Gas:%.1fk IAQ:%u Lux:%.1flx UV:%.2f INA:%.2fV/%.1fmA SoilT:%.2fC Soil:%u%%]",
-                 sender,
-                 t->variant.environment_metrics.temperature,
-                 t->variant.environment_metrics.relative_humidity,
-                 t->variant.environment_metrics.barometric_pressure,
-                 t->variant.environment_metrics.gas_resistance,
-                 (uint32_t)t->variant.environment_metrics.iaq,
-                 t->variant.environment_metrics.lux,
-                 t->variant.environment_metrics.uv_lux,
-                 t->variant.environment_metrics.voltage,
-                 t->variant.environment_metrics.current,
-                 t->variant.environment_metrics.soil_temperature,
-                 (uint32_t)t->variant.environment_metrics.soil_moisture);
+        // CROWDSENSE: Clean, single-line RECEIVED telemetry logging
+        String logMsg = "(Mesh Rx from " + String(sender) + "): ";
+        if (t->variant.environment_metrics.has_temperature) logMsg += "AmbTemp: " + String(t->variant.environment_metrics.temperature, 1) + "C ";
+        if (t->variant.environment_metrics.has_relative_humidity) logMsg += "Hum: " + String(t->variant.environment_metrics.relative_humidity, 0) + "% ";
+        if (t->variant.environment_metrics.has_barometric_pressure) logMsg += "Pres: " + String(t->variant.environment_metrics.barometric_pressure, 1) + "hPa ";
+        if (t->variant.environment_metrics.has_soil_temperature) logMsg += "SoilTemp: " + String(t->variant.environment_metrics.soil_temperature, 1) + "C ";
+        if (t->variant.environment_metrics.has_soil_moisture) logMsg += "SoilMst: " + String(t->variant.environment_metrics.soil_moisture) + "% ";
+        
+        LOG_INFO("<<< %s >>>", logMsg.c_str());
 #endif
-        // release previous packet before occupying a new spot
-        if (lastMeasurementPacket != nullptr)
-            packetPool.release(lastMeasurementPacket);
-
-        lastMeasurementPacket = packetPool.allocCopy(mp);
+        // CROWDSENSE: Removed stashing Mesh Rx packets to lastMeasurementPacket.
+        // This avoids exhausting the MeshPacketPool during Bluetooth sync/bursts.
+        // The LCD handles remote data updates directly in displayTelemetry().
     }
 
     return false; // Let others look at this message also if they want
 }
+
 bool EnvironmentTelemetryModule::getEnvironmentTelemetry(meshtastic_Telemetry *m)
 {
     bool valid = true;
@@ -440,30 +579,22 @@ bool EnvironmentTelemetryModule::getEnvironmentTelemetry(meshtastic_Telemetry *m
     }
 
 #ifndef T1000X_SENSOR_EN
-#if !MESHTASTIC_EXCLUDE_INA219
     if (ina219Sensor.hasSensor()) {
         valid = valid && ina219Sensor.getMetrics(m);
         hasSensor = true;
     }
-#endif
-#if !MESHTASTIC_EXCLUDE_INA260
     if (ina260Sensor.hasSensor()) {
         valid = valid && ina260Sensor.getMetrics(m);
         hasSensor = true;
     }
-#endif
-#if !MESHTASTIC_EXCLUDE_INA3221
     if (ina3221Sensor.hasSensor()) {
         valid = valid && ina3221Sensor.getMetrics(m);
         hasSensor = true;
     }
-#endif
-#if !MESHTASTIC_EXCLUDE_MAX17048
     if (max17048Sensor.hasSensor()) {
         valid = valid && max17048Sensor.getMetrics(m);
         hasSensor = true;
     }
-#endif
 #endif
 #ifdef HAS_RAKPROT
     valid = valid && rak9154Sensor.getMetrics(m);
@@ -507,26 +638,31 @@ bool EnvironmentTelemetryModule::sendTelemetry(NodeNum dest, bool phoneOnly)
     m.time = getTime();
 
     if (getEnvironmentTelemetry(&m)) {
-        // Calculate raw soil ADC back from percentage for the log (approximate but useful)
-        uint32_t soilRaw = 4095 - (m.variant.environment_metrics.soil_moisture * 4095 / 100);
-
-        LOG_INFO("CROWDSENSE BROADCAST: [Temp:%.2fC Hum:%.1f%% Press:%.1fhPa Gas:%.1fk IAQ:%u Lux:%.1flx UV:%.2f INA:%.2fV/%.1fmA SoilT:%.2fC Soil:%u%% (ADC:%u)]",
-                 m.variant.environment_metrics.temperature,
-                 m.variant.environment_metrics.relative_humidity,
-                 m.variant.environment_metrics.barometric_pressure,
-                 m.variant.environment_metrics.gas_resistance,
-                 (uint32_t)m.variant.environment_metrics.iaq,
-                 m.variant.environment_metrics.lux,
-                 m.variant.environment_metrics.uv_lux,
-                 m.variant.environment_metrics.voltage,
-                 m.variant.environment_metrics.current,
-                 m.variant.environment_metrics.soil_temperature,
-                 (uint32_t)m.variant.environment_metrics.soil_moisture,
-                 soilRaw);
+        // CROWDSENSE: Clean, single-line local telemetry logging
+        String logMsg = "Terra Telemetry: ";
+        if (m.variant.environment_metrics.has_temperature) logMsg += "AmbTemp: " + String(m.variant.environment_metrics.temperature, 1) + "C ";
+        if (m.variant.environment_metrics.has_relative_humidity) logMsg += "Hum: " + String(m.variant.environment_metrics.relative_humidity, 0) + "% ";
+        if (m.variant.environment_metrics.has_barometric_pressure) logMsg += "Pres: " + String(m.variant.environment_metrics.barometric_pressure, 1) + "hPa ";
+        if (m.variant.environment_metrics.has_soil_temperature) logMsg += "SoilTemp: " + String(m.variant.environment_metrics.soil_temperature, 1) + "C ";
+        if (m.variant.environment_metrics.has_soil_moisture) logMsg += "SoilMst: " + String(m.variant.environment_metrics.soil_moisture) + "% ";
+        if (m.variant.environment_metrics.has_iaq) logMsg += "IAQ: " + String(m.variant.environment_metrics.iaq) + " ";
+        
+        LOG_INFO("@@@ %s @@@", logMsg.c_str());
 
         sensor_read_error_count = 0;
 
+#if HAS_SCREEN
+        // Update local LCD with our own telemetry
+        if (graphics::lcdDisplay) {
+            graphics::lcdDisplay->displayTelemetry(nodeDB->getNodeNum(), m.variant.environment_metrics);
+        }
+#endif
+
         meshtastic_MeshPacket *p = allocDataProtobuf(m);
+        if (!p) {
+            LOG_ERROR("Environment: Packet allocation failed!");
+            return false;
+        }
         p->to = dest;
         p->decoded.want_response = false;
         if (config.device.role == meshtastic_Config_DeviceConfig_Role_SENSOR)
@@ -534,10 +670,16 @@ bool EnvironmentTelemetryModule::sendTelemetry(NodeNum dest, bool phoneOnly)
         else
             p->priority = meshtastic_MeshPacket_Priority_BACKGROUND;
         // release previous packet before occupying a new spot
-        if (lastMeasurementPacket != nullptr)
-            packetPool.release(lastMeasurementPacket);
-
-        lastMeasurementPacket = packetPool.allocCopy(*p);
+        meshtastic_MeshPacket *newPacket = packetPool.allocCopy(*p);
+        if (newPacket) {
+            meshtastic_MeshPacket *oldPacket = lastMeasurementPacket;
+            lastMeasurementPacket = newPacket; // UI thread will see new packet
+            if (oldPacket != nullptr) {
+                packetPool.release(oldPacket);
+            }
+        } else {
+            LOG_WARN("Failed to allocate memory for UI telemetry copy!");
+        }
         if (phoneOnly) {
             LOG_INFO("Send packet to phone");
             service->sendToPhone(p);
@@ -577,34 +719,26 @@ AdminMessageHandleResult EnvironmentTelemetryModule::handleAdminMessageForModule
             return result;
     }
 
-#if !MESHTASTIC_EXCLUDE_INA219
     if (ina219Sensor.hasSensor()) {
         result = ina219Sensor.handleAdminMessage(mp, request, response);
         if (result != AdminMessageHandleResult::NOT_HANDLED)
             return result;
     }
-#endif
-#if !MESHTASTIC_EXCLUDE_INA260
     if (ina260Sensor.hasSensor()) {
         result = ina260Sensor.handleAdminMessage(mp, request, response);
         if (result != AdminMessageHandleResult::NOT_HANDLED)
             return result;
     }
-#endif
-#if !MESHTASTIC_EXCLUDE_INA3221
     if (ina3221Sensor.hasSensor()) {
         result = ina3221Sensor.handleAdminMessage(mp, request, response);
         if (result != AdminMessageHandleResult::NOT_HANDLED)
             return result;
     }
-#endif
-#if !MESHTASTIC_EXCLUDE_MAX17048
     if (max17048Sensor.hasSensor()) {
         result = max17048Sensor.handleAdminMessage(mp, request, response);
         if (result != AdminMessageHandleResult::NOT_HANDLED)
             return result;
     }
-#endif
 #endif
     return result;
 }

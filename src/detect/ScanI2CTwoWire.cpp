@@ -214,6 +214,10 @@ void ScanI2CTwoWire::scanPort(I2CPort port, uint8_t *address, uint8_t asize)
                     type = CARDKB;
                 }
                 break;
+            case LCD_ADDR:
+                logFoundDevice("I2C LCD 20x4", (uint8_t)addr.address);
+                type = SCREEN_LCD_20X4;
+                break;
 
             case TDECK_KB_ADDR:
                 // Do we have the T-Deck keyboard or the T-Deck Pro battery sensor?
@@ -228,7 +232,10 @@ void ScanI2CTwoWire::scanPort(I2CPort port, uint8_t *address, uint8_t asize)
                 break;
                 SCAN_SIMPLE_CASE(BBQ10_KB_ADDR, BBQ10KB, "BB Q10", (uint8_t)addr.address);
 
-                SCAN_SIMPLE_CASE(ST7567_ADDRESS, SCREEN_ST7567, "ST7567", (uint8_t)addr.address);
+            case ST7567_ADDRESS:
+                logFoundDevice("I2C LCD 20x4/ST7567", (uint8_t)addr.address);
+                type = SCREEN_LCD_20X4;
+                break;
 #ifdef HAS_NCP5623
                 SCAN_SIMPLE_CASE(NCP5623_ADDR, NCP5623, "NCP5623", (uint8_t)addr.address);
 #endif

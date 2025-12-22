@@ -31,6 +31,7 @@
 #include "detect/einkScan.h"
 #include "graphics/RAKled.h"
 #include "graphics/Screen.h"
+#include "graphics/LCDDisplay.h"
 #include "main.h"
 #include "mesh/generated/meshtastic/config.pb.h"
 #include "meshUtils.h"
@@ -914,6 +915,16 @@ void setup()
 #endif
     }
 #endif // HAS_SCREEN
+
+    // Fallback to I2C LCD if no OLED/TFT screen was found
+    if (screen == nullptr) {
+        auto lcdInfo = i2cScanner->find(ScanI2C::DeviceType::SCREEN_LCD_20X4);
+        if (lcdInfo.type != ScanI2C::DeviceType::NONE) {
+            LOG_INFO("Initializing Fallback I2C LCD @ 0x%02x", lcdInfo.address.address);
+            graphics::lcdDisplay = new graphics::LCDDisplay(lcdInfo.address);
+            graphics::lcdDisplay->setup();
+        }
+    }
 
     // setup TZ prior to time actions.
 #if !MESHTASTIC_EXCLUDE_TZ

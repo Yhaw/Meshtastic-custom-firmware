@@ -23,7 +23,6 @@ public:
 private:
     uint16_t readAnalog();
     
-    const uint8_t SOIL_PIN = 34; // Using Pin 34 (ADC1) to avoid LoRa conflicts
     const uint8_t SAMPLES = 10;
 };
 

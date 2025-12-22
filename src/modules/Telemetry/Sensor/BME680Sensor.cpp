@@ -27,20 +27,21 @@ bool BME680Sensor::initDevice(TwoWire *bus, ScanI2C::FoundDevice *dev)
     if (bme680.status == BSEC_OK) {
         status = 1;
         if (!bme680.setConfig(bsec_config)) {
+            LOG_ERROR("BME680: setConfig failed, status: %d", bme680.status);
             checkStatus("setConfig");
             status = 0;
         }
         loadState();
         if (!bme680.updateSubscription(sensorList, ARRAY_LEN(sensorList), BSEC_SAMPLE_RATE_LP)) {
+            LOG_ERROR("BME680: updateSubscription failed, status: %d", bme680.status);
             checkStatus("updateSubscription");
             status = 0;
         }
-        LOG_INFO("Init sensor: %s with the BSEC Library version %d.%d.%d.%d ", sensorName, bme680.version.major,
+        LOG_INFO("Init sensor: %s at 0x%02X with BSEC Library %d.%d.%d.%d", sensorName, dev->address.address, bme680.version.major,
                  bme680.version.minor, bme680.version.major_bugfix, bme680.version.minor_bugfix);
+    } else {
+        LOG_ERROR("BME680: begin failed at 0x%02X, status: %d", dev->address.address, bme680.status);
     }
-
-    if (status == 0)
-        LOG_DEBUG("BME680Sensor::runOnce: bme680.status %d", bme680.status);
 
     initI2CSensor();
     return status;
