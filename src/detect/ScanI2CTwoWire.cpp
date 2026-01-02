@@ -671,6 +671,11 @@ void ScanI2CTwoWire::scanPort(I2CPort port, uint8_t *address, uint8_t asize)
                 break;
             }
 
+            case 0x17:
+                logFoundDevice("Blues Notecard", (uint8_t)addr.address);
+                type = BLUES_NOTECARD;
+                break;
+
             default:
                 LOG_INFO("Device found at address 0x%x was not able to be enumerated", (uint8_t)addr.address);
             }

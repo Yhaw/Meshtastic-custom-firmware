@@ -87,7 +87,8 @@ class ScanI2C
         DA217,
         CHSC6X,
         CST226SE,
-        SCREEN_LCD_20X4
+        SCREEN_LCD_20X4,
+        BLUES_NOTECARD
     } DeviceType;
 
     // typedef uint8_t DeviceAddress;

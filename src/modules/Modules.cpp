@@ -105,6 +105,8 @@
 #include "modules/SerialModule.h"
 #endif
 
+#include "modules/NotecardGatewayModule.h"
+
 #if !MESHTASTIC_EXCLUDE_DROPZONE
 #include "modules/DropzoneModule.h"
 #endif
@@ -246,6 +248,7 @@ void setupModules()
 #endif
 #if HAS_TELEMETRY
     new DeviceTelemetryModule();
+    new NotecardGatewayModule();
 #endif
 #if HAS_TELEMETRY && HAS_SENSOR && !MESHTASTIC_EXCLUDE_ENVIRONMENTAL_SENSOR
     if (moduleConfig.has_telemetry &&

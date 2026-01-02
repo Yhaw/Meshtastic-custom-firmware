@@ -17,6 +17,7 @@
 #include "graphics/images.h"
 #include "main.h"
 #include "modules/ExternalNotificationModule.h"
+#include "modules/NotecardGatewayModule.h"
 #include "power.h"
 #include "sleep.h"
 #include "target_specific.h"
@@ -378,7 +379,6 @@ int32_t EnvironmentTelemetryModule::runOnce()
             // Just send to phone when it's not our time to send to mesh yet
             // Only send while queue is empty (phone assumed connected)
             sendTelemetry(NODENUM_BROADCAST, true);
-            sendTelemetry(NODENUM_BROADCAST, true);
             lastSentToPhone = millis();
         }
     }
@@ -673,6 +673,11 @@ bool EnvironmentTelemetryModule::sendTelemetry(NodeNum dest, bool phoneOnly)
             graphics::lcdDisplay->displayTelemetry(nodeDB->getNodeNum(), m.variant.environment_metrics);
         }
 #endif
+
+        // Hook for Blues Notecard Gateway
+        if (!phoneOnly) {
+            NotecardGatewayModule::queueTelemetry(nodeDB->getNodeNum(), m);
+        }
 
         meshtastic_MeshPacket *p = allocDataProtobuf(m);
         if (!p) {

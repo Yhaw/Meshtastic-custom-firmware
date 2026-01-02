@@ -8,6 +8,7 @@
 #include "RadioLibInterface.h"
 #include "Router.h"
 #include "configuration.h"
+#include "modules/NotecardGatewayModule.h"
 #include "main.h"
 #include "memGet.h"
 #include <OLEDDisplay.h>
@@ -185,6 +186,9 @@ bool DeviceTelemetryModule::sendTelemetry(NodeNum dest, bool phoneOnly)
     } else {
         LOG_INFO("Send packet to mesh");
         service->sendToMesh(p, RX_SRC_LOCAL, true);
+        
+        // Hook for Blues Notecard Gateway
+        NotecardGatewayModule::queueTelemetry(nodeDB->getNodeNum(), telemetry);
     }
     return true;
 }
