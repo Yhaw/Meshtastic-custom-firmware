@@ -13,6 +13,7 @@
 #include "UnitConversions.h"
 #include "buzz.h"
 #include "graphics/SharedUIDisplay.h"
+#include "graphics/LCDDisplay.h"
 #include "graphics/images.h"
 #include "main.h"
 #include "modules/ExternalNotificationModule.h"
@@ -143,6 +144,10 @@ extern void drawCommonHeader(OLEDDisplay *display, int16_t x, int16_t y, const c
 #include "Sensor/DS18B20Sensor.h"
 #endif
 
+#if __has_include(<Adafruit_INA219.h>)
+#include "Sensor/INA219Sensor.h"
+#endif
+
 #define FAILED_STATE_SENSOR_READ_MULTIPLIER 10
 #define DISPLAY_RECEIVEID_MEASUREMENTS_ON_SCREEN true
 
@@ -245,6 +250,9 @@ void EnvironmentTelemetryModule::i2cScanFinished(ScanI2C *i2cScanner)
 #endif
 #if __has_include(<Adafruit_VEML7700.h>)
     addSensor<VEML7700Sensor>(i2cScanner, ScanI2C::DeviceType::VEML7700);
+#endif
+#if __has_include(<Adafruit_INA219.h>)
+    addSensor<INA219Sensor>(i2cScanner, ScanI2C::DeviceType::INA219);
 #endif
 #if __has_include(<Adafruit_TSL2591.h>)
     addSensor<TSL2591Sensor>(i2cScanner, ScanI2C::DeviceType::TSL2591);
@@ -370,9 +378,17 @@ int32_t EnvironmentTelemetryModule::runOnce()
             // Just send to phone when it's not our time to send to mesh yet
             // Only send while queue is empty (phone assumed connected)
             sendTelemetry(NODENUM_BROADCAST, true);
+            sendTelemetry(NODENUM_BROADCAST, true);
             lastSentToPhone = millis();
         }
     }
+    
+#if HAS_SCREEN
+    if (graphics::lcdDisplay) {
+         graphics::lcdDisplay->manageBacklight();
+    }
+#endif
+
     return min(sendToPhoneIntervalMs, result);
 }
 
@@ -441,34 +457,34 @@ void EnvironmentTelemetryModule::drawFrame(OLEDDisplay *display, OLEDDisplayUiSt
 
     if (m.has_temperature) {
         String tempStr = moduleConfig.telemetry.environment_display_fahrenheit
-                             ? "Tmp: " + String(UnitConversions::CelsiusToFahrenheit(m.temperature), 1) + "°F"
-                             : "Tmp: " + String(m.temperature, 1) + "°C";
+                             ? "T:" + String(UnitConversions::CelsiusToFahrenheit(m.temperature), 1) + "F"
+                             : "T:" + String(m.temperature, 1) + "C";
         entries.push_back(tempStr);
     }
     if (m.has_relative_humidity)
-        entries.push_back("Hum: " + String(m.relative_humidity, 0) + "%");
+        entries.push_back("H:" + String(m.relative_humidity, 0) + "%");
     if (m.barometric_pressure != 0)
-        entries.push_back("Prss: " + String(m.barometric_pressure, 0) + " hPa");
+        entries.push_back("P:" + String(m.barometric_pressure, 0) + "hPa");
     if (m.iaq != 0) {
-        String aqi = "IAQ: " + String(m.iaq);
+        String aqi = "IAQ:" + String(m.iaq);
         const char *bannerMsg = nullptr; // Default: no banner
 
         if (m.iaq <= 25)
-            aqi += " (Excellent)";
+            aqi += "(Exc)";
         else if (m.iaq <= 50)
-            aqi += " (Good)";
+            aqi += "(Good)";
         else if (m.iaq <= 100)
-            aqi += " (Moderate)";
+            aqi += "(Mod)";
         else if (m.iaq <= 150)
-            aqi += " (Poor)";
+            aqi += "(Poor)";
         else if (m.iaq <= 200) {
-            aqi += " (Unhealthy)";
+            aqi += "(Unhlth)";
             bannerMsg = "Unhealthy IAQ";
         } else if (m.iaq <= 300) {
-            aqi += " (Very Unhealthy)";
+            aqi += "(V.Unh)";
             bannerMsg = "Very Unhealthy IAQ";
         } else {
-            aqi += " (Hazardous)";
+            aqi += "(Haz)";
             bannerMsg = "Hazardous IAQ";
         }
 
@@ -495,17 +511,17 @@ void EnvironmentTelemetryModule::drawFrame(OLEDDisplay *display, OLEDDisplayUiSt
         }
     }
     if (m.voltage != 0 || m.current != 0)
-        entries.push_back(String(m.voltage, 1) + "V / " + String(m.current, 0) + "mA");
+        entries.push_back("V:" + String(m.voltage, 1) + " I:" + String(m.current, 0));
     if (m.lux != 0)
-        entries.push_back("Light: " + String(m.lux, 0) + "lx");
+        entries.push_back("L:" + String(m.lux, 0) + "lx");
     if (m.white_lux != 0)
-        entries.push_back("White: " + String(m.white_lux, 0) + "lx");
+        entries.push_back("W:" + String(m.white_lux, 0) + "lx");
     if (m.weight != 0)
-        entries.push_back("Weight: " + String(m.weight, 0) + "kg");
+        entries.push_back("W:" + String(m.weight, 0) + "kg");
     if (m.distance != 0)
-        entries.push_back("Level: " + String(m.distance, 0) + "mm");
+        entries.push_back("L:" + String(m.distance, 0) + "mm");
     if (m.radiation != 0)
-        entries.push_back("Rad: " + String(m.radiation, 2) + " µR/h");
+        entries.push_back("R:" + String(m.radiation, 2) + "uR");
 
     // === Show first available metric on top-right of first line ===
     if (!entries.empty()) {
@@ -652,8 +668,8 @@ bool EnvironmentTelemetryModule::sendTelemetry(NodeNum dest, bool phoneOnly)
         sensor_read_error_count = 0;
 
 #if HAS_SCREEN
-        // Update local LCD with our own telemetry
-        if (graphics::lcdDisplay) {
+        // Update local LCD ONLY when sending to mesh (phoneOnly=false), not when sending to phone
+        if (!phoneOnly && graphics::lcdDisplay) {
             graphics::lcdDisplay->displayTelemetry(nodeDB->getNodeNum(), m.variant.environment_metrics);
         }
 #endif

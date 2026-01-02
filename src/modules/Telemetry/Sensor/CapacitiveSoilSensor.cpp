@@ -27,15 +27,25 @@ uint16_t CapacitiveSoilSensor::readAnalog()
     return total / SAMPLES;
 }
 
+// Calibration values for Capacitive Soil Moisture Sensor v1.2 (3.3V)
+// Air ~ 3300-3500+ (User reports ~15-19% with full range 4095)
+// Water ~ 1200-1500 typically
+#define SOIL_DRY_ADC 3000 // Threshold: Readings above this (drier) will be 0%
+#define SOIL_WET_ADC 1200 // Reading at 100% moisture
+
 bool CapacitiveSoilSensor::getMetrics(meshtastic_Telemetry *measurement)
 {
     uint16_t raw = readAnalog();
     
-    // Convert 0-4095 to 0-100% (Inverting: 0 is wettest/100%, 4095 is driest/0%)
-    // formula: % = (4095 - raw) * 100 / 4095
-    float pct = ((4095.0f - (float)raw) * 100.0f) / 4095.0f;
+    // Convert using calibrated range
+    // map(value, fromLow, fromHigh, toLow, toHigh)
+    // Note: Capacitive sensors read LOW when WET, HIGH when DRY.
+    long pct = map(raw, SOIL_DRY_ADC, SOIL_WET_ADC, 0, 100);
+
     if (pct < 0) pct = 0;
     if (pct > 100) pct = 100;
+
+    LOG_INFO("Soil Sensor: Raw=%d, Pct=%ld%%", raw, pct);
 
     measurement->variant.environment_metrics.soil_moisture = (uint32_t)pct;
     measurement->variant.environment_metrics.has_soil_moisture = true;

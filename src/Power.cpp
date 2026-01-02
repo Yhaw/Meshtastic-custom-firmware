@@ -529,7 +529,8 @@ class AnalogBatteryLevel : public HasBatteryLevel
 #if HAS_TELEMETRY && !MESHTASTIC_EXCLUDE_ENVIRONMENTAL_SENSOR
     uint16_t getINAVoltage()
     {
-        if (nodeTelemetrySensorsMap[meshtastic_TelemetrySensorType_INA219].first == config.power.device_battery_ina_address) {
+        uint8_t ina219 = nodeTelemetrySensorsMap[meshtastic_TelemetrySensorType_INA219].first;
+        if (ina219 && (config.power.device_battery_ina_address == 0 || config.power.device_battery_ina_address == ina219)) {
             return ina219Sensor.getBusVoltageMv();
         } else if (nodeTelemetrySensorsMap[meshtastic_TelemetrySensorType_INA226].first ==
                    config.power.device_battery_ina_address) {
@@ -546,7 +547,8 @@ class AnalogBatteryLevel : public HasBatteryLevel
 
     int16_t getINACurrent()
     {
-        if (nodeTelemetrySensorsMap[meshtastic_TelemetrySensorType_INA219].first == config.power.device_battery_ina_address) {
+        uint8_t ina219 = nodeTelemetrySensorsMap[meshtastic_TelemetrySensorType_INA219].first;
+        if (ina219 && (config.power.device_battery_ina_address == 0 || config.power.device_battery_ina_address == ina219)) {
             return ina219Sensor.getCurrentMa();
         } else if (nodeTelemetrySensorsMap[meshtastic_TelemetrySensorType_INA226].first ==
                    config.power.device_battery_ina_address) {
@@ -560,14 +562,19 @@ class AnalogBatteryLevel : public HasBatteryLevel
 
     bool hasINA()
     {
+        uint8_t ina219 = nodeTelemetrySensorsMap[meshtastic_TelemetrySensorType_INA219].first;
+        // Auto-detect if config is 0, otherwise enforce config match
+        if (ina219 && (config.power.device_battery_ina_address == 0 || config.power.device_battery_ina_address == ina219)) {
+             if (!ina219Sensor.isInitialized())
+                return ina219Sensor.runOnce() > 0;
+            return ina219Sensor.isRunning();
+        }
+        
         if (!config.power.device_battery_ina_address) {
             return false;
         }
-        if (nodeTelemetrySensorsMap[meshtastic_TelemetrySensorType_INA219].first == config.power.device_battery_ina_address) {
-            if (!ina219Sensor.isInitialized())
-                return ina219Sensor.runOnce() > 0;
-            return ina219Sensor.isRunning();
-        } else if (nodeTelemetrySensorsMap[meshtastic_TelemetrySensorType_INA226].first ==
+        
+        if (nodeTelemetrySensorsMap[meshtastic_TelemetrySensorType_INA226].first ==
                    config.power.device_battery_ina_address) {
             if (!ina226Sensor.isInitialized())
                 return ina226Sensor.runOnce() > 0;
