@@ -18,6 +18,7 @@
 #include "main.h"
 #include "modules/ExternalNotificationModule.h"
 #include "modules/NotecardGatewayModule.h"
+#include "TelemetryTDMA.h"
 #include "power.h"
 #include "sleep.h"
 #include "target_specific.h"
@@ -327,6 +328,7 @@ int32_t EnvironmentTelemetryModule::runOnce()
 
         if (moduleConfig.telemetry.environment_measurement_enabled || ENVIRONMENTAL_TELEMETRY_MODULE_ENABLE) {
             LOG_INFO("Environment Telemetry: init");
+            LOG_INFO("wTDMA: Node assigned to slot %d (cycle: 10min, slot: 10sec)", getTDMASlot());
 
             // check if we have at least one sensor
             if (!sensors.empty()) {
@@ -372,8 +374,18 @@ int32_t EnvironmentTelemetryModule::runOnce()
                                                                default_telemetry_broadcast_interval_secs, numOnlineNodes))) &&
             airTime->isTxAllowedChannelUtil(config.device.role != meshtastic_Config_DeviceConfig_Role_SENSOR) &&
             airTime->isTxAllowedAirUtil()) {
-            sendTelemetry();
-            lastSentToMesh = millis();
+            
+            // wTDMA: Only transmit in assigned slot to reduce collisions
+            if (canTransmitTelemetry()) {
+                LOG_DEBUG("wTDMA: Transmitting environment telemetry in slot %d", getTDMASlot());
+                sendTelemetry();
+                lastSentToMesh = millis();
+            } else {
+                LOG_DEBUG("wTDMA: Skipping environment telemetry (assigned slot %d, current slot %d)",
+                         getTDMASlot(), getCurrentTDMASlot());
+                // Update lastSentToMesh to prevent stuck state - will retry in next interval
+                lastSentToMesh = millis();
+            }
         } else if (((lastSentToPhone == 0) || !Throttle::isWithinTimespanMs(lastSentToPhone, sendToPhoneIntervalMs)) &&
                    (service->isToPhoneQueueEmpty())) {
             // Just send to phone when it's not our time to send to mesh yet

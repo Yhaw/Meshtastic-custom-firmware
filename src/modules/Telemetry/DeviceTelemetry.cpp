@@ -9,6 +9,7 @@
 #include "Router.h"
 #include "configuration.h"
 #include "modules/NotecardGatewayModule.h"
+#include "TelemetryTDMA.h"
 #include "main.h"
 #include "memGet.h"
 #include <OLEDDisplay.h>
@@ -29,8 +30,18 @@ int32_t DeviceTelemetryModule::runOnce()
         airTime->isTxAllowedChannelUtil(!isImpoliteRole) && airTime->isTxAllowedAirUtil() &&
         config.device.role != meshtastic_Config_DeviceConfig_Role_CLIENT_HIDDEN &&
         moduleConfig.telemetry.device_telemetry_enabled) {
-        sendTelemetry();
-        lastSentToMesh = uptimeLastMs;
+        
+        // wTDMA: Only transmit in assigned slot to reduce collisions
+        if (canTransmitTelemetry()) {
+            LOG_DEBUG("wTDMA: Transmitting device telemetry in slot %d", getTDMASlot());
+            sendTelemetry();
+            lastSentToMesh = uptimeLastMs;
+        } else {
+            LOG_DEBUG("wTDMA: Skipping device telemetry (assigned slot %d, current slot %d)",
+                     getTDMASlot(), getCurrentTDMASlot());
+            // Update lastSentToMesh to prevent stuck state - will retry in next interval
+            lastSentToMesh = uptimeLastMs;
+        }
     } else if (service->isToPhoneQueueEmpty()) {
         // Just send to phone when it's not our time to send to mesh yet
         // Only send while queue is empty (phone assumed connected)
