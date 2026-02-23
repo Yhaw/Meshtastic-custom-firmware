@@ -328,6 +328,27 @@ int32_t EnvironmentTelemetryModule::runOnce()
         if (moduleConfig.telemetry.environment_measurement_enabled || ENVIRONMENTAL_TELEMETRY_MODULE_ENABLE) {
             LOG_INFO("Environment Telemetry: init");
 
+            // HARDENING: Set I2C timeout to prevent infinite hangs during sensor reads
+            // This ensures potential BME280/AHT10 lockups resolve and don't stall the OSThread
+            Wire.setTimeOut(50); // 50ms timeout
+            
+#if WIRE_INTERFACES_COUNT > 1
+            Wire1.setTimeOut(50);
+#endif
+
+            // FORCE I2C RESET at startup to clear any stuck states from boot
+            // (Similar to the Notecard reset logic that proved necessary)
+            Wire.end(); 
+            delay(10);
+            Wire.begin();
+#if WIRE_INTERFACES_COUNT > 1
+            Wire1.end();
+            delay(10);
+            Wire1.begin();
+#endif
+            delay(50); // Settlement time
+
+
             // check if we have at least one sensor
             if (!sensors.empty()) {
                 result = DEFAULT_SENSOR_MINIMUM_WAIT_TIME_BETWEEN_READS;

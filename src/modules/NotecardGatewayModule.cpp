@@ -6,11 +6,13 @@
 #include "RTC.h"
 #include "RedirectablePrint.h"
 #include "SerialConsole.h"
+#include "PositionModule.h"
 #include "mesh/generated/meshtastic/mesh.pb.h"
 #include <Notecard.h>
 #include <note-c/n_cjson.h>
 #include "gps/GPS.h"
 #include <Arduino.h>
+#include "GPSStatus.h"
 
 #define PRODUCT_UID "com.afrilogicsolutions.arnold.kimkpe:crowdsense_terra"
 #include "concurrency/LockGuard.h"
@@ -64,8 +66,8 @@ void NotecardGatewayModule::setup() {
         logJ("REQ:", locReq);
         notecard.sendRequest(locReq);
 
-        // Start the periodic update thread
-        setIntervalFromNow(5000); // Start in 5 seconds
+        // Start the periodic update thread after 3 minutes to give Notecard time to sync
+        setIntervalFromNow(3 * 60 * 1000); 
     } else {
         LOG_WARN("Notecard Gateway: Notecard not found or unresponsive");
     }
@@ -110,6 +112,20 @@ void NotecardGatewayModule::doQueueTelemetry(NodeNum from, const meshtastic_Tele
         // Skip repeated data from same node at same time
         return;
     }
+    
+    // Bounded cache: evict oldest entry if cache is full (prevents memory leak)
+    if (lastSeenTelemetry.size() >= MAX_DEDUP_CACHE_SIZE && !lastSeenTelemetry.count(from)) {
+        // Find and erase the oldest entry (smallest timestamp)
+        auto oldest = lastSeenTelemetry.begin();
+        for (auto it = lastSeenTelemetry.begin(); it != lastSeenTelemetry.end(); ++it) {
+            if (it->second < oldest->second) {
+                oldest = it;
+            }
+        }
+        LOG_DEBUG("NotecardGateway: Cache full, evicting node 0x%x", oldest->first);
+        lastSeenTelemetry.erase(oldest);
+    }
+    
     lastSeenTelemetry[from] = telemetry.time;
 
     const char *senderName = "Unknown";
@@ -129,7 +145,23 @@ void NotecardGatewayModule::doQueueTelemetry(NodeNum from, const meshtastic_Tele
     snprintf(hexStr, sizeof(hexStr), "%x", from);
     JAddStringToObject(body, "node", hexStr);
     JAddStringToObject(body, "name", senderName);
-    if (telemetry.time != 0) JAddNumberToObject(body, "time", telemetry.time);
+    
+    // User Request: Explicitly fetch time from Notecard for this field
+    // instead of relying on local time or omitting it.
+    J *timeReq = notecard.newRequest("card.time");
+    J *timeRsp = notecard.requestAndResponse(timeReq);
+    uint32_t notecardTime = 0;
+    if (timeRsp != NULL) {
+        notecardTime = (uint32_t)JGetNumber(timeRsp, "time");
+        notecard.deleteResponse(timeRsp);
+    }
+
+    if (notecardTime > 0) {
+        JAddNumberToObject(body, "time", notecardTime);
+    } else if (telemetry.time != 0) {
+        // Fallback to packet time if Notecard time fails
+        JAddNumberToObject(body, "time", telemetry.time);
+    }
 
     if (rssi != 0) JAddNumberToObject(body, "rssi", (double)rssi);
     if (snr != 0) JAddNumberToObject(body, "snr", (double)snr);
@@ -243,31 +275,31 @@ void NotecardGatewayModule::updateGpsLocation() {
                 hasHadFirstFix = true;
             }
             LOG_INFO("Notecard Gateway: Got Location Lat=%f Lon=%f", lat, lon);
+
+            // IMPORTANT: Inject into NodeDB
+            // This is the correct way to update the node's authoritative position
+            // so it can be sent to the mesh and displayed.
+            meshtastic_Position pos = meshtastic_Position_init_default;
+            pos.latitude_i = (int32_t)(lat * 1e7);
+            pos.longitude_i = (int32_t)(lon * 1e7);
+            pos.time = time;
+            pos.timestamp = time;
+            pos.location_source = meshtastic_Position_LocSource_LOC_EXTERNAL;
+            pos.has_latitude_i = true;
+            pos.has_longitude_i = true;
             
-            // Inject into global GPS object if it exists
-#if !MESHTASTIC_EXCLUDE_GPS
-            if (gps) {
-                gps->p.latitude_i = (int32_t)(lat * 1e7);
-                gps->p.longitude_i = (int32_t)(lon * 1e7);
-                gps->p.time = time;
-                gps->p.timestamp = time;
-                
-                // Note: we can't call gps->publishUpdate() as it's private.
-                // But updating gps->p keeps the global object in sync for display.
+            // Set it as the current local position
+            if (nodeDB) {
+                nodeDB->setLocalPosition(pos);
+                LOG_INFO("Notecard Gateway: Injected location into NodeDB");
             }
-#endif
-            
-            // Also push to NodeDB directly as a fallback or if GPS module is disabled
-            meshtastic_Position p = meshtastic_Position_init_default;
-            p.latitude_i = (int32_t)(lat * 1e7);
-            p.longitude_i = (int32_t)(lon * 1e7);
-            p.time = time;
-            p.timestamp = time;
-            p.location_source = meshtastic_Position_LocSource_LOC_INTERNAL;
-            p.has_latitude_i = true;
-            p.has_longitude_i = true;
-            
-            nodeDB->setLocalPosition(p);
+
+            // IMPORTANT: Update the global gpsStatus which notifies the app and mesh
+            if (gpsStatus) {
+                meshtastic::GPSStatus newGpsStatus(true, true, false, pos);
+                gpsStatus->updateStatus(&newGpsStatus);
+                LOG_INFO("📍 Notecard Gateway: SENT TO APP/MESH - Lat=%f Lon=%f", lat, lon);
+            }
         } else {
             LOG_DEBUG("Notecard Gateway: No GPS fix yet");
         }

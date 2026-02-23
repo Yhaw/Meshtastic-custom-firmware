@@ -45,6 +45,8 @@ private:
     concurrency::Lock lock;
 
     // Deduplication cache: nodeNum -> last telemetry timestamp
+    // BOUNDED to prevent memory leak - max 50 nodes
+    static const size_t MAX_DEDUP_CACHE_SIZE = 50;
     std::map<NodeNum, uint32_t> lastSeenTelemetry;
 
     /**
@@ -67,6 +69,6 @@ private:
     
     uint32_t lastGpsUpdate = 0;
     bool hasHadFirstFix = false;
-    static const uint32_t GPS_BOOT_POLL_INTERVAL_MS = 2 * 60 * 1000;   // 2 minutes during initial fix
-    static const uint32_t GPS_NORMAL_POLL_INTERVAL_MS = 15 * 60 * 1000; // 15 minutes normally
+    static const uint32_t GPS_BOOT_POLL_INTERVAL_MS = 3 * 60 * 1000;   // 3 minutes during initial fix
+    static const uint32_t GPS_NORMAL_POLL_INTERVAL_MS = 2 * 60 * 1000; // 2 minutes normally
 };
